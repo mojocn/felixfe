@@ -3,10 +3,10 @@
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu :default-openeds="['1', '3']" router>
                 <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-message"></i>导航一</template>
+                    <template slot="title"><i class="el-icon-message"></i>Felix</template>
                     <el-menu-item-group>
-                        <template slot="title">SSH管理</template>
-                        <el-menu-item index="/ssh/list">列表</el-menu-item>
+                        <template slot="title">SSH</template>
+                        <el-menu-item index="/ssh/list">SSH list</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
@@ -18,9 +18,9 @@
                 <el-dropdown>
                     <i class="el-icon-setting" style="margin-right: 15px"></i>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>查看</el-dropdown-item>
-                        <el-dropdown-item>新增</el-dropdown-item>
-                        <el-dropdown-item>删除</el-dropdown-item>
+                        <el-dropdown-item>Login</el-dropdown-item>
+                        <el-dropdown-item>Edit</el-dropdown-item>
+                        <el-dropdown-item>Info</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
                 <span>Felix Ericsson Zhou</span>
@@ -29,7 +29,7 @@
                 <router-view></router-view>
             </el-main>
             <el-footer>
-                footer
+                FrontEnd and BackEnd were created by Eric Zhou
             </el-footer>
         </el-container>
     </el-container>
@@ -42,6 +42,9 @@
 </script>
 
 <style scoped>
+    #felix {
+        height: 800px;
+    }
     .el-header {
         background-color: #B3C0D1;
         color: #333;

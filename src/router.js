@@ -16,6 +16,14 @@ const vueRouter = new Router({
       component: () => import("@/components/Main"),
       children:[
           {
+              path: "sftp/:id",
+              name: "sftp",
+              meta: {
+                  title: "sftp awesome"
+              },
+              component: () => import("@/components/Sftp")
+          },
+          {
               path: "ssh/list",
               name: "sshList",
               meta: {

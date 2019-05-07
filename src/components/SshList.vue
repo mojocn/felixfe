@@ -4,7 +4,7 @@
 </style>
 <template>
     <div>
-        <el-table :data="tableData" border style="width: 100%" stripe height="500px">
+        <el-table :data="tableData" border style="width: 100%" stripe height="800px">
             <el-table-column fixed prop="ID" label="ID" width="50">
             </el-table-column>
             <el-table-column prop="name" label="Name" >
@@ -20,32 +20,42 @@
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Action" width="200" >
+            <el-table-column fixed="right" label="Action" width="240" >
                 <template slot-scope="scope">
                     <el-button-group>
                         <el-button
+                                title="open terminal"
                                 @click="handleClickConsole(scope.row);"
                                 type="primary"
                                 size="small"
                                 icon="el-icon-video-play"
                         ></el-button>
                         <el-button
+                                title="edit ssh connection configuration"
                                 @click="handleClickUpdate(scope.row);"
                                 type="warning"
                                 size="small"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
+                                title="view ssh machine information"
                                 @click="handleClickView(scope.row);"
                                 type="success"
                                 size="small"
                                 icon="el-icon-monitor"
                         ></el-button>
                         <el-button
+                                title="delete ssh connection"
                                 @click="handleClickDelete(scope.row);"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
+                        ></el-button>
+                        <el-button
+                                title="open a sftp app"
+                                @click="handleClickSftp(scope.row);"
+                                size="small"
+                                icon="el-icon-sort"
                         ></el-button>
                     </el-button-group>
 
@@ -74,6 +84,7 @@ export default {
             size:15,
             tableData: [],
             q: ""
+
         };
     },
     mounted() {
@@ -104,7 +115,10 @@ export default {
                 })
         },
         handleClickConsole(row) {
-            this.$router.push({'name': 'sshConsole', query: {id: row.ID}})
+            this.$router.push({'name': 'sshConsole', params: {id: row.ID}})
+        },
+        handleClickSftp(row) {
+            this.$router.push({'name':'sftp',params:{id:row.ID}})
         },
         handleClickDelete(row) {
             this.$http.delete(`api/ssh/${row.ID}`).then(res => {
