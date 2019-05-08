@@ -4,10 +4,15 @@
 </style>
 <template>
     <div>
-        <el-table :data="tableData" border style="width: 100%" stripe height="800px">
+        <el-row>
+            <el-col :span="4"><el-button icon="el-icon-s-promotion" type="primary" @click="handleSshCreate"></el-button></el-col>
+            <el-col :span="20"></el-col>
+        </el-row>
+        <br>
+        <el-table :data="tableData" border style="width: 100%" stripe>
             <el-table-column fixed prop="ID" label="ID" width="50">
             </el-table-column>
-            <el-table-column prop="name" label="Name" >
+            <el-table-column prop="name" label="Name">
             </el-table-column>
             <el-table-column prop="port" label="Port" width="60">
             </el-table-column>
@@ -20,7 +25,7 @@
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Action" width="240" >
+            <el-table-column fixed="right" label="Action" width="240">
                 <template slot-scope="scope">
                     <el-button-group>
                         <el-button
@@ -71,65 +76,143 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
         </el-pagination>
+
+        <!--edit-->
+        <el-dialog title="ssh" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="ssh name" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="ssh user" :label-width="formLabelWidth">
+                    <el-input v-model="form.user" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="ssh password" :label-width="formLabelWidth">
+                    <el-input v-model="form.password" autocomplete="off" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="ssh port" :label-width="formLabelWidth">
+                    <el-input v-model="form.port" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="auth type" :label-width="formLabelWidth">
+                    <el-select v-model="form.region" placeholder="请选择活动区域">
+                        <el-option label="password" value="password"></el-option>
+                        <el-option label="private key" value="key"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="handleFormSubmit">Submit</el-button>
+            </div>
+        </el-dialog>
+        <!-- info -->
+        <el-dialog title="SSH Machine Hardware Infomartion" :visible.sync="dialogInfoVisible">
+            <pre v-text="JSON.stringify(info, null, 4)">
+
+            </pre>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogInfoVisible = false">Close</el-button>
+            </div>
+        </el-dialog>
     </div>
 
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            total:0,
-            page:1,
-            size:15,
-            tableData: [],
-            q: ""
-
-        };
-    },
-    mounted() {
-        this.fetchSshList();
-    },
-    created() {},
-    methods: {
-        pageChange(val){
-            this.page =val
-            this.fetchSshList()
+    export default {
+        props: ['ID', 'name', 'user'],
+        data() {
+            return {
+                dialogInfoVisible: false,
+                formLabelWidth:'120px',
+                dialogFormVisible: false,
+                total: 0,
+                page: 1,
+                size: 15,
+                tableData: [],
+                q: "",
+                form: {},
+                info:{}
+            };
         },
-        sizeChange(val){
-            this.page = 1
-            this.size =val
-            this.fetchSshList()
+        mounted() {
+            this.fetchSshList();
         },
-        fetchSshList() {
-            let page = this.page
-            let size = this.size
-            let where = ''
-            this.$http
-                .get("api/ssh", {params: {where,page,size}})
-                .then(resp => {
-                    this.total = resp.total
-                    this.size = resp.size
-                    this.page = resp.page
-                    this.tableData = resp.data
-                })
+        created() {
         },
-        handleClickConsole(row) {
-            this.$router.push({'name': 'sshConsole', params: {id: row.ID}})
-        },
-        handleClickSftp(row) {
-            this.$router.push({'name':'sftp',params:{id:row.ID}})
-        },
-        handleClickDelete(row) {
-            this.$http.delete(`api/ssh/${row.ID}`).then(res => {
-                if (res.ok){
-                    this.$message.success(res.msg)
-                    this.fetchSshList()
+        methods: {
+            pageChange(val) {
+                this.page = val
+                this.fetchSshList()
+            },
+            sizeChange(val) {
+                this.page = 1
+                this.size = val
+                this.fetchSshList()
+            },
+            fetchSshList() {
+                let page = this.page
+                let size = this.size
+                let where = ''
+                this.$http
+                    .get("api/ssh", {params: {where, page, size}})
+                    .then(resp => {
+                        this.total = resp.total
+                        this.size = resp.size
+                        this.page = resp.page
+                        this.tableData = resp.data
+                    })
+            },
+            handleClickConsole(row) {
+                this.$router.push({'name': 'sshConsole', params: row})
+            },
+            handleClickSftp(row) {
+                this.$router.push({'name': 'sftp', params: row})
+            },
+            handleClickUpdate(row) {
+                this.form = row
+                this.dialogFormVisible = true
+            },
+            handleFormSubmit() {
+                let method = 'post';
+                let url = ''
+                if (this.form.ID >0){
+                    method = "patch";
+                    url = `api/ssh/${this.form.ID}`
                 }else {
-                    this.$message.error(res.msg)
+                    url = 'api/ssh';
+                    method = "post"
                 }
-            })
+                let data = this.form;
+                this.$http({method,url,data}).then(res =>{
+                    if(res.ok){
+                        this.$message.success("success");
+                        this.dialogFormVisible = false;
+                        this.fetchSshList()
+                    }
+                })
+            },
+            handleClickView(row){
+                this.info = row;
+                this.$http.get(`api/ssh/${row.ID}`).then(res =>{
+                    this.info = res.data;
+                    this.dialogInfoVisible = true;
+                })
+            },
+            handleSshCreate(){
+                this.form = {user:'',port:22,password:'',name:'',ID:0};
+                this.dialogFormVisible = true
+            },
+            handleClickDelete(row) {
+                this.$http.delete(`api/ssh/${row.ID}`).then(res => {
+                    if (res.ok) {
+                        this.fetchSshList();
+                        this.$message.success(res.msg)
+                    } else {
+                        this.$message.error(res.msg)
+                    }
+                })
+            }
         }
-    }
-};
+    };
 </script>

@@ -1,5 +1,6 @@
 import axios from 'axios'
-import {Loading,Message}from 'element-ui'
+import {Message,MessageBox}from 'element-ui'
+import vueRouter from "../router";
 
 // function getBaseUrl() {
 //     let baseUrl = process.env.BASE_API
@@ -23,23 +24,30 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config => {
-    // 在发送请求之前做些什么
-    //判断是否存在token，如果存在将每个页面header都添加token
-    // if (store.state.token) {
-    //     config.headers.common['Authentication-Token'] = store.state.token
-    // }
-    //请求前到请求到数据这段时间用加载动画来代替，以服务方式调用
-    // let loading = Loading.service({
-    //     //fullscreen: true,
-    //     text: '拼命加载中...',
-    //     target:'#felix'
-    // });
+
+    //过滤 登陆请求
+    if (config.url.includes('login')){
+        return config
+    }
+    let expire_ts = localStorage.getItem('expire_ts');
+    if (expire_ts && parseInt(expire_ts) < (Date.now()/1000)){
+        Message.error('token has been expired')
+        return Promise.reject(null)
+    }
+    let token = localStorage.getItem('token')
+    if (!token){
+        Message.error('has no token jump to login page')
+        return Promise.reject(null)
+    }
+    config.headers['Authorization'] = 'Bearer ' + token // 让每个请求携带自定义token 请根据实际情况自行修改
+
+
     return config;
 }, error => {
     // 对请求错误做些什么
     Message.error("sending request is failed")
-    let loading = Loading.service({target:'#felix'});
-    loading.close();    //关闭加载前，记得重新定义实例
+    // let loading = Loading.service({target:'#felix'});
+    // loading.close();    //关闭加载前，记得重新定义实例
     return Promise.reject(error);
 });
 
@@ -54,19 +62,19 @@ service.interceptors.response.use(response => {
         }
     },
     error => {
-        if (error.response) {
-            switch (error.response.status) {
-                case 401:
-                    // this.$store.commit('del_token');
-                    // router.replace({
-                    //     path: '/login',
-                    //     query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
-                    // })
-            }
+
+        if (error.response && error.response.status === 412){
+
+            MessageBox.confirm('未被授权，请重新登录', '重新登录', {
+                confirmButtonText: '重新登录',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                vueRouter.push({name:"login"})
+            })
+            return Promise.reject(null)
         }
 
-        // let loading = Loading.service({target:'#felix'});
-        // loading.close();
         return Promise.reject(error.response.data)
 
     });

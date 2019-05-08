@@ -3,12 +3,19 @@
     .custom-tree-node {
         width: 100%;
     }
+
     .el-col > a {
         margin-right: 20px;
     }
 </style>
 <template>
     <section>
+        <el-row justify="center" type="flex" :gutter="80">
+            <el-col :span="6">
+                <el-button icon="el-icon-back" @click="$router.go(-1)" type="primary"></el-button>
+            </el-col>
+            <el-col :span="18"><h2> Sftp: {{user}} @ {{name}}</h2></el-col>
+        </el-row>
 
         <el-tree
                 accordion
@@ -68,6 +75,7 @@
                 </el-col>
                 <el-col :span="1">
                     <el-link
+                            v-if="node.level != 1"
                             type="danger"
                             @click="handleDelete(data)"
                             title="rm"
@@ -176,6 +184,7 @@
 
 <script>
     export default {
+        props: ['ID', 'name', 'user'],
         data() {
             return {
                 catData: "",
@@ -196,7 +205,6 @@
             };
         },
         mounted() {
-            this.id = this.$route.params.id
         },
         created() {
         },
@@ -209,20 +217,18 @@
                         {name: "/", path: "/", is_dir: true}
                     ]);
                 } else {
-                    let id = this.id
                     let path = node.data.path
                     this.$http
-                        .get(`api/sftp/${id}`, {params: {path}})
+                        .get(`api/sftp/${this.ID}`, {params: {path}})
                         .then(res => {
                             resolve(res.data)
                         })
                 }
             },
             handleSftpCat(data) {
-                let id = this.id
                 let path = data.path
                 this.$http
-                    .get(`api/sftp/${id}/cat`, {params: {path}})
+                    .get(`api/sftp/${this.ID}/cat`, {params: {path}})
                     .then(res => {
                         this.catData = res.data
                         this.catDialogVisible = true
@@ -237,9 +243,8 @@
                 this.$message.error(err + file.name)
             },
             handleDelete(data) {
-                let id = this.id
                 let path = data.path
-                this.$http.get(`api/sftp/${id}/rm`, {params: {path}}).then(res => {
+                this.$http.get(`api/sftp/${this.ID}/rm`, {params: {path}}).then(res => {
                     if (res.ok) {
                         this.$message.success(path + " has been deleted!")
                     }
@@ -252,9 +257,8 @@
                     cancelButtonText: 'Cancel',
                     inputPlaceholder: data.path
                 }).then(({value}) => {
-                    let id = this.id
                     let path = `${data.path}/${value}`
-                    this.$http.get(`api/sftp/${id}/mkdir`, {params: {path}}).then(res => {
+                    this.$http.get(`api/sftp/${this.ID}/mkdir`, {params: {path}}).then(res => {
                         if (res.ok) {
                             this.$message.success(path + " has been made!")
                         }
@@ -272,10 +276,9 @@
                     cancelButtonText: 'Cancel',
                     inputPlaceholder: data.path
                 }).then(({value}) => {
-                    let id = this.id
                     let opath = data.path
                     let npath = value
-                    this.$http.get(`api/sftp/${id}/rename`, {params: {opath, npath}}).then(res => {
+                    this.$http.get(`api/sftp/${this.ID}/rename`, {params: {opath, npath}}).then(res => {
                         if (res.ok) {
                             this.$message.success(opath + " has been rename to " + npath)
                         }
@@ -289,12 +292,13 @@
 
             },
             handleDownload(data) {
-                window.open(`api/sftp/${this.id}/dl?path=${data.path}`, '_blank');
+                window.open(`api/sftp/${this.ID}/dl?path=${data.path}`, '_blank');
             },
             handleUploadDialog(data) {
                 this.uploadDialogVisible = true
-                this.uploadUrl = `api/sftp/${this.id}/up?path=${data.path}`
+                this.uploadUrl = `api/sftp/${this.ID}/up?path=${data.path}`
             }
+
         }
     };
 </script>

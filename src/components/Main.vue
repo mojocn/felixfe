@@ -24,6 +24,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
                 <span>Felix Ericsson Zhou</span>
+                <p><a href="https://github.com/dejavuzhou/felix"></a></p>
             </el-header>
             <el-main id="felix">
                 <router-view></router-view>
