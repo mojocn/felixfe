@@ -11,9 +11,10 @@
             <el-form-item label="Db type">
                 <el-radio-group v-model="form.db_type">
                     <el-radio label="mysql">mysql</el-radio>
-                    <el-radio label="msql">msql</el-radio>
+                    <el-radio label="mssql">mssql</el-radio>
                     <el-radio label="sqlite">sqlite</el-radio>
-                    <el-radio label="pgsql">pgsql</el-radio>
+                    <el-radio label="sqlite3">sqlite3</el-radio>
+                    <el-radio label="postgres">postgres</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="DB Charset">
