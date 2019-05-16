@@ -177,14 +177,18 @@
         methods: {
             apiFetchDb() {
                 this.$http.post('api/ginbro/db', this.form).then(res => {
-                    this.schema = res.data;
-                    this.stepIdx = 2;
+                    if (res) {
+                        this.schema = res.data;
+                        this.stepIdx = 2;
+                    }
                 })
             },
             apiGenCode() {
                 this.$http.post('api/ginbro/gen', this.form).then(res => {
-                    this.app = res.data;
-                    this.stepIdx = 4;
+                    if (res) {
+                        this.app = res.data;
+                        this.stepIdx = 4;
+                    }
                 })
             },
             doNext() {

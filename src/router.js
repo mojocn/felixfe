@@ -19,7 +19,7 @@ const vueRouter = new Router({
                 title: "main"
             },
             component: () => import("@/components/Main"),
-            redirect: {name: 'sshList'},
+            //redirect: {name: 'sshList'},
             children: [
                 {
                     path: "sftp/:ID/:name/:user",

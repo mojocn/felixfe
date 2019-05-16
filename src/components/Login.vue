@@ -38,7 +38,7 @@
             handleLogin() {
                 this.loading = true;
                 this.$http.post('api/login', this.ruleForm).then(res => {
-                    if (res.ok) {
+                    if (res) {
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("expire_ts", res.data.expire_ts);
                         localStorage.setItem("expire", res.data.expire);

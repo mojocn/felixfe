@@ -221,18 +221,20 @@
                     this.$http
                         .get(`api/sftp/${this.ID}`, {params: {path}})
                         .then(res => {
-                            resolve(res.data)
+                            if (res) {
+                                resolve(res.data)
+                            }
                         })
                 }
             },
             handleSftpCat(data) {
                 let path = data.path;
-                this.$http
-                    .get(`api/sftp/${this.ID}/cat`, {params: {path}})
-                    .then(res => {
+                this.$http.get(`api/sftp/${this.ID}/cat`, {params: {path}}).then(res => {
+                    if (res) {
                         this.catData = res.data;
-                        this.catDialogVisible = true
-                    })
+                    }
+                    this.catDialogVisible = true
+                })
             },
             handleUploadSuccess(res, file) {
                 if (!res.ok) {
@@ -245,7 +247,7 @@
             handleDelete(data) {
                 let path = data.path;
                 this.$http.get(`api/sftp/${this.ID}/rm`, {params: {path}}).then(res => {
-                    if (res.ok) {
+                    if (res) {
                         this.$message.success(path + " has been deleted!")
                     }
                 })
@@ -259,7 +261,7 @@
                 }).then(({value}) => {
                     let path = `${data.path}/${value}`;
                     this.$http.get(`api/sftp/${this.ID}/mkdir`, {params: {path}}).then(res => {
-                        if (res.ok) {
+                        if (res) {
                             this.$message.success(path + " has been made!")
                         }
                     })
@@ -279,7 +281,7 @@
                     let opath = data.path;
                     let npath = value;
                     this.$http.get(`api/sftp/${this.ID}/rename`, {params: {opath, npath}}).then(res => {
-                        if (res.ok) {
+                        if (res) {
                             this.$message.success(opath + " has been rename to " + npath)
                         }
                     })

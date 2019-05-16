@@ -5,7 +5,9 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="4"><el-button icon="el-icon-s-promotion" type="primary" @click="handleSshCreate"></el-button></el-col>
+            <el-col :span="4">
+                <el-button icon="el-icon-s-promotion" type="primary" @click="handleSshCreate"></el-button>
+            </el-col>
             <el-col :span="20"></el-col>
         </el-row>
         <br>
@@ -134,7 +136,7 @@
                 termVisible: false,
                 selectedRow: {},
                 dialogInfoVisible: false,
-                formLabelWidth:'120px',
+                formLabelWidth: '120px',
                 dialogFormVisible: false,
                 total: 0,
                 page: 1,
@@ -142,7 +144,7 @@
                 tableData: [],
                 q: "",
                 form: {},
-                info:{}
+                info: {}
             };
         },
         mounted() {
@@ -170,10 +172,13 @@
                 this.$http
                     .get("api/ssh", {params: {where, page, size}})
                     .then(resp => {
-                        this.total = resp.total;
-                        this.size = resp.size;
-                        this.page = resp.page;
-                        this.tableData = resp.data
+                        if (resp) {
+                            this.total = resp.total;
+                            this.size = resp.size;
+                            this.page = resp.page;
+                            this.tableData = resp.data
+                        }
+
                     })
             },
             handleClickConsole(row) {
@@ -191,40 +196,41 @@
             handleFormSubmit() {
                 let method = 'post';
                 let url = '';
-                if (this.form.ID >0){
+                if (this.form.ID > 0) {
                     method = "patch";
                     url = `api/ssh/${this.form.ID}`
-                }else {
+                } else {
                     url = 'api/ssh';
                     method = "post"
                 }
                 let data = this.form;
-                this.$http({method,url,data}).then(res =>{
-                    if(res.ok){
+                this.$http({method, url, data}).then(res => {
+                    if (res) {
                         this.$message.success("success");
                         this.dialogFormVisible = false;
                         this.fetchSshList()
                     }
                 })
             },
-            handleClickView(row){
+            handleClickView(row) {
                 this.info = row;
-                this.$http.get(`api/ssh/${row.ID}`).then(res =>{
-                    this.info = res.data;
+                this.$http.get(`api/ssh/${row.ID}`).then(res => {
+                    if (res) {
+                        this.info = res.data;
+
+                    }
                     this.dialogInfoVisible = true;
                 })
             },
-            handleSshCreate(){
+            handleSshCreate() {
                 this.form = {user: '', port: 22, password: '', name: '', ID: 0, type: "password"};
                 this.dialogFormVisible = true
             },
             handleClickDelete(row) {
                 this.$http.delete(`api/ssh/${row.ID}`).then(res => {
-                    if (res.ok) {
+                    if (res) {
                         this.fetchSshList();
                         this.$message.success(res.msg)
-                    } else {
-                        this.$message.error(res.msg)
                     }
                 })
             }

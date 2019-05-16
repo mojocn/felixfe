@@ -8,9 +8,10 @@ import service from "./libs/request";
 Vue.use(ElementUI);
 Vue.prototype.$http = service;
 
-Vue.config.productionTip = false
+
+Vue.config.productionTip = false;
 
 new Vue({
     router,
     render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');
