@@ -112,37 +112,37 @@
             <!--<span class="sftp-action">-->
             <!--<el-link-->
             <!--v-if="data.is_dir"-->
-            <!--db_type="warning"-->
+            <!--type="warning"-->
             <!--@click="handleUploadDialog(data)"-->
             <!--icon="el-icon-upload">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="!data.is_dir"-->
-            <!--db_type="success"-->
+            <!--type="success"-->
             <!--@click="handleDownload(data)"-->
             <!--icon="el-icon-download">-->
             <!--</el-link>-->
 
             <!--<el-link-->
             <!--v-if="!data.is_dir"-->
-            <!--db_type="primary"-->
+            <!--type="primary"-->
             <!--@click="handleSftpCat(data)"-->
             <!--icon="el-icon-view">-->
             <!--</el-link>-->
             <!--<el-link-->
-            <!--db_type="danger"-->
+            <!--type="danger"-->
             <!--@click="handleDelete(data)"-->
             <!--icon="el-icon-delete-solid">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="node.level != 1"-->
-            <!--db_type="info"-->
+            <!--type="info"-->
             <!--@click="handleRename(data)"-->
             <!--icon="el-icon-edit">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="data.is_dir"-->
-            <!--db_type="primary"-->
+            <!--type="primary"-->
             <!--@click="handleMkdir(data)"-->
             <!--icon="el-icon-folder-add">-->
             <!--</el-link>-->
@@ -265,7 +265,7 @@
                     })
                 }).catch(() => {
                     this.$message({
-                        db_type: 'info',
+                        type: 'info',
                         message: 'mkdir command has been canceled'
                     });
                 });
@@ -285,7 +285,7 @@
                     })
                 }).catch(() => {
                     this.$message({
-                        db_type: 'info',
+                        type: 'info',
                         message: 'rename command has been canceled'
                     });
                 });

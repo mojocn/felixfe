@@ -48,7 +48,7 @@
         let onTermResize = size => {
             websocket.send(
                 JSON.stringify({
-                    db_type: "resize",
+                    type: "resize",
                     data: {rows: size.rows, cols: size.cols}
                 })
             );
@@ -81,7 +81,7 @@
         let handleTerminalData = function (data) {
             websocket.send(
                 JSON.stringify({
-                    db_type: "terminal",
+                    type: "terminal",
                     data: {
                         base64: Base64.encode(data) // encode data as base64 format
                     }
@@ -96,7 +96,7 @@
 
         // send heartbeat package to avoid closing webSocket connection in some proxy environmental such as nginx.
         let heartBeatTimer = setInterval(function () {
-            websocket.send(JSON.stringify({db_type: "heartbeat", data: ""}));
+            websocket.send(JSON.stringify({type: "heartbeat", data: ""}));
         }, 20 * 1000);
 
         websocket.addEventListener("close", function () {
@@ -107,7 +107,7 @@
         });
     };
     export default {
-        props: {obj: {db_type: Object, require: true}, visible: Boolean},
+        props: {obj: {type: Object, require: true}, visible: Boolean},
         name: "CompTerm",
         data() {
             return {
@@ -136,7 +136,7 @@
                 this.term.fit(); // it will make terminal resized.
             },
             doLink(ev, url) {
-                if (ev.db_type === 'click') {
+                if (ev.type === 'click') {
                     window.open(url)
                 }
             },
