@@ -8,22 +8,22 @@ const vueRouter = new Router({
     routes: [
         {
             path:"/login",
-            app_dir: "login",
+            name: "login",
             component: () => import("@/components/Login"),
         }
         ,
         {
             path: "/",
-            app_dir: "main",
+            name: "main",
             meta: {
                 title: "main"
             },
             component: () => import("@/components/Main"),
-            redirect: {app_dir: 'sshList'},
+            redirect: {name: 'sshList'},
             children: [
                 {
-                    path: "sftp/:ID/:app_dir/:user",
-                    app_dir: "sftp",
+                    path: "sftp/:ID/:name/:user",
+                    name: "sftp",
                     props: true,
                     meta: {
                         title: "sftp awesome"
@@ -32,7 +32,7 @@ const vueRouter = new Router({
                 },
                 {
                     path: "ssh/list",
-                    app_dir: "sshList",
+                    name: "sshList",
                     meta: {
                         title: "ssh list"
                     },
@@ -40,7 +40,7 @@ const vueRouter = new Router({
                 },
                 {
                     path: "ginbro/gen",
-                    app_dir: "ginbroGen",
+                    name: "ginbroGen",
                     meta: {
                         title: "ginbro-gen"
                     },

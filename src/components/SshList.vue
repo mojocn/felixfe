@@ -84,7 +84,7 @@
         <el-dialog title="ssh" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="ssh name" :label-width="formLabelWidth">
-                    <el-input v-model="form.app_dir" autocomplete="off"></el-input>
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="ssh user" :label-width="formLabelWidth">
                     <el-input v-model="form.user" autocomplete="off"></el-input>
@@ -96,7 +96,7 @@
                     <el-input v-model="form.port" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="auth type" :label-width="formLabelWidth">
-                    <el-select v-model="form.db_type" placeholder="请选择活动区域">
+                    <el-select v-model="form.type" placeholder="请选择活动区域">
                         <el-option label="password" value="password"></el-option>
                         <el-option label="private key" value="key"></el-option>
                     </el-select>
@@ -179,10 +179,10 @@
             handleClickConsole(row) {
                 this.selectedRow = row;
                 this.termVisible = true;
-                // this.$router.push({'app_dir': 'sshConsole', params: row})
+                // this.$router.push({'name': 'sshConsole', params: row})
             },
             handleClickSftp(row) {
-                this.$router.push({'app_dir': 'sftp', params: row})
+                this.$router.push({'name': 'sftp', params: row})
             },
             handleClickUpdate(row) {
                 this.form = row;
@@ -215,7 +215,7 @@
                 })
             },
             handleSshCreate(){
-                this.form = {user: '', port: 22, password: '', app_dir: '', ID: 0, db_type: "password"};
+                this.form = {user: '', port: 22, password: '', name: '', ID: 0, type: "password"};
                 this.dialogFormVisible = true
             },
             handleClickDelete(row) {

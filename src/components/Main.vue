@@ -41,7 +41,7 @@
 
 <script>
     export default {
-        app_dir: "Main"
+        name: "Main"
     }
 </script>
 

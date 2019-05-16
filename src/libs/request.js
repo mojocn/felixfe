@@ -64,9 +64,9 @@ service.interceptors.response.use(response => {
             MessageBox.confirm(error.msg, error.title, {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
-                db_type: 'warning'
+                type: 'warning'
             }).then(() => {
-                vueRouter.push({app_dir: "login"})
+                vueRouter.push({name: "login"})
             });
             return Promise.reject(null)
         }
@@ -75,9 +75,9 @@ service.interceptors.response.use(response => {
             MessageBox.confirm('token is invalid', 'jump to login', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
-                db_type: 'warning'
+                type: 'warning'
             }).then(() => {
-                vueRouter.push({app_dir: "login"})
+                vueRouter.push({name: "login"})
             });
             return Promise.reject(null)
         }

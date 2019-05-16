@@ -112,37 +112,37 @@
             <!--<span class="sftp-action">-->
             <!--<el-link-->
             <!--v-if="data.is_dir"-->
-            <!--type="warning"-->
+            <!--db_type="warning"-->
             <!--@click="handleUploadDialog(data)"-->
             <!--icon="el-icon-upload">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="!data.is_dir"-->
-            <!--type="success"-->
+            <!--db_type="success"-->
             <!--@click="handleDownload(data)"-->
             <!--icon="el-icon-download">-->
             <!--</el-link>-->
 
             <!--<el-link-->
             <!--v-if="!data.is_dir"-->
-            <!--type="primary"-->
+            <!--db_type="primary"-->
             <!--@click="handleSftpCat(data)"-->
             <!--icon="el-icon-view">-->
             <!--</el-link>-->
             <!--<el-link-->
-            <!--type="danger"-->
+            <!--db_type="danger"-->
             <!--@click="handleDelete(data)"-->
             <!--icon="el-icon-delete-solid">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="node.level != 1"-->
-            <!--type="info"-->
+            <!--db_type="info"-->
             <!--@click="handleRename(data)"-->
             <!--icon="el-icon-edit">-->
             <!--</el-link>-->
             <!--<el-link-->
             <!--v-if="data.is_dir"-->
-            <!--type="primary"-->
+            <!--db_type="primary"-->
             <!--@click="handleMkdir(data)"-->
             <!--icon="el-icon-folder-add">-->
             <!--</el-link>-->
@@ -217,7 +217,7 @@
                         {name: "/", path: "/", is_dir: true}
                     ]);
                 } else {
-                    let path = node.data.path
+                    let path = node.data.path;
                     this.$http
                         .get(`api/sftp/${this.ID}`, {params: {path}})
                         .then(res => {
@@ -226,11 +226,11 @@
                 }
             },
             handleSftpCat(data) {
-                let path = data.path
+                let path = data.path;
                 this.$http
                     .get(`api/sftp/${this.ID}/cat`, {params: {path}})
                     .then(res => {
-                        this.catData = res.data
+                        this.catData = res.data;
                         this.catDialogVisible = true
                     })
             },
@@ -243,7 +243,7 @@
                 this.$message.error(err + file.name)
             },
             handleDelete(data) {
-                let path = data.path
+                let path = data.path;
                 this.$http.get(`api/sftp/${this.ID}/rm`, {params: {path}}).then(res => {
                     if (res.ok) {
                         this.$message.success(path + " has been deleted!")
@@ -257,7 +257,7 @@
                     cancelButtonText: 'Cancel',
                     inputPlaceholder: data.path
                 }).then(({value}) => {
-                    let path = `${data.path}/${value}`
+                    let path = `${data.path}/${value}`;
                     this.$http.get(`api/sftp/${this.ID}/mkdir`, {params: {path}}).then(res => {
                         if (res.ok) {
                             this.$message.success(path + " has been made!")
@@ -265,7 +265,7 @@
                     })
                 }).catch(() => {
                     this.$message({
-                        type: 'info',
+                        db_type: 'info',
                         message: 'mkdir command has been canceled'
                     });
                 });
@@ -276,8 +276,8 @@
                     cancelButtonText: 'Cancel',
                     inputPlaceholder: data.path
                 }).then(({value}) => {
-                    let opath = data.path
-                    let npath = value
+                    let opath = data.path;
+                    let npath = value;
                     this.$http.get(`api/sftp/${this.ID}/rename`, {params: {opath, npath}}).then(res => {
                         if (res.ok) {
                             this.$message.success(opath + " has been rename to " + npath)
@@ -285,7 +285,7 @@
                     })
                 }).catch(() => {
                     this.$message({
-                        type: 'info',
+                        db_type: 'info',
                         message: 'rename command has been canceled'
                     });
                 });
@@ -295,7 +295,7 @@
                 window.open(`api/sftp/${this.ID}/dl?path=${data.path}`, '_blank');
             },
             handleUploadDialog(data) {
-                this.uploadDialogVisible = true
+                this.uploadDialogVisible = true;
                 this.uploadUrl = `api/sftp/${this.ID}/up?path=${data.path}`
             }
 
