@@ -14,11 +14,13 @@
             </el-table-column>
             <el-table-column prop="name" label="Name">
             </el-table-column>
+            <el-table-column prop="ip" label="IP">
+            </el-table-column>
             <el-table-column prop="port" label="Port" width="60">
             </el-table-column>
-            <el-table-column prop="user" label="User">
+            <el-table-column prop="user" label="User" width="120">
             </el-table-column>
-            <el-table-column prop="type" label="Type">
+            <el-table-column prop="type" label="Type" width="120">
             </el-table-column>
             <el-table-column label="UpdatedAt" width="180">
                 <template slot-scope="scope">
@@ -30,35 +32,35 @@
                     <el-button-group>
                         <el-button
                                 title="open terminal"
-                                @click="handleClickConsole(scope.row);"
+                                @click="handleClickConsole(scope.row)"
                                 type="primary"
                                 size="small"
                                 icon="el-icon-video-play"
                         ></el-button>
                         <el-button
                                 title="edit ssh connection configuration"
-                                @click="handleClickUpdate(scope.row);"
+                                @click="handleClickUpdate(scope.row)"
                                 type="warning"
                                 size="small"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
                                 title="view ssh machine information"
-                                @click="handleClickView(scope.row);"
+                                @click="handleClickView(scope.row)"
                                 type="success"
                                 size="small"
                                 icon="el-icon-monitor"
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
-                                @click="handleClickDelete(scope.row);"
+                                @click="handleClickDelete(scope.row)"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
                         ></el-button>
                         <el-button
                                 title="open a sftp app"
-                                @click="handleClickSftp(scope.row);"
+                                @click="handleClickSftp(scope.row)"
                                 size="small"
                                 icon="el-icon-sort"
                         ></el-button>
@@ -68,10 +70,11 @@
             </el-table-column>
         </el-table>
         <el-pagination
+                style="margin-top: 20px"
                 @size-change="sizeChange"
                 @current-change="pageChange"
                 :current-page="page"
-                :page-sizes="[15, 30, 45, 60]"
+                :page-sizes="[10,15, 30, 45, 60]"
                 :page-size="size"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
@@ -81,7 +84,7 @@
         <el-dialog title="ssh" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="ssh name" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input v-model="form.app_dir" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="ssh user" :label-width="formLabelWidth">
                     <el-input v-model="form.user" autocomplete="off"></el-input>
@@ -93,7 +96,7 @@
                     <el-input v-model="form.port" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="auth type" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择活动区域">
+                    <el-select v-model="form.db_type" placeholder="请选择活动区域">
                         <el-option label="password" value="password"></el-option>
                         <el-option label="private key" value="key"></el-option>
                     </el-select>
@@ -114,21 +117,28 @@
                 <el-button @click="dialogInfoVisible = false">Close</el-button>
             </div>
         </el-dialog>
+
+        <comp-term :obj="selectedRow" :visible="termVisible" @pclose="doClose"></comp-term>
     </div>
 
 </template>
 
 <script>
+    import CompTerm from "./CompTerm";
+
     export default {
+        components: {CompTerm},
         props: ['ID', 'name', 'user'],
         data() {
             return {
+                termVisible: false,
+                selectedRow: {},
                 dialogInfoVisible: false,
                 formLabelWidth:'120px',
                 dialogFormVisible: false,
                 total: 0,
                 page: 1,
-                size: 15,
+                size: 10,
                 tableData: [],
                 q: "",
                 form: {},
@@ -141,41 +151,46 @@
         created() {
         },
         methods: {
+            doClose(flag) {
+                this.termVisible = flag
+            },
             pageChange(val) {
-                this.page = val
+                this.page = val;
                 this.fetchSshList()
             },
             sizeChange(val) {
-                this.page = 1
-                this.size = val
+                this.page = 1;
+                this.size = val;
                 this.fetchSshList()
             },
             fetchSshList() {
-                let page = this.page
-                let size = this.size
-                let where = ''
+                let page = this.page;
+                let size = this.size;
+                let where = '';
                 this.$http
                     .get("api/ssh", {params: {where, page, size}})
                     .then(resp => {
-                        this.total = resp.total
-                        this.size = resp.size
-                        this.page = resp.page
+                        this.total = resp.total;
+                        this.size = resp.size;
+                        this.page = resp.page;
                         this.tableData = resp.data
                     })
             },
             handleClickConsole(row) {
-                this.$router.push({'name': 'sshConsole', params: row})
+                this.selectedRow = row;
+                this.termVisible = true;
+                // this.$router.push({'app_dir': 'sshConsole', params: row})
             },
             handleClickSftp(row) {
-                this.$router.push({'name': 'sftp', params: row})
+                this.$router.push({'app_dir': 'sftp', params: row})
             },
             handleClickUpdate(row) {
-                this.form = row
+                this.form = row;
                 this.dialogFormVisible = true
             },
             handleFormSubmit() {
                 let method = 'post';
-                let url = ''
+                let url = '';
                 if (this.form.ID >0){
                     method = "patch";
                     url = `api/ssh/${this.form.ID}`
@@ -200,7 +215,7 @@
                 })
             },
             handleSshCreate(){
-                this.form = {user:'',port:22,password:'',name:'',ID:0};
+                this.form = {user: '', port: 22, password: '', app_dir: '', ID: 0, db_type: "password"};
                 this.dialogFormVisible = true
             },
             handleClickDelete(row) {
