@@ -7,7 +7,7 @@ const vueRouter = new Router({
     mode: "hash",
     routes: [
         {
-            path:"/login",
+            path: "/login",
             name: "login",
             component: () => import("@/components/Login"),
         }

@@ -5,10 +5,11 @@
                @open="doOpen"
                @close="doClose"
                center
-               width="70%"
+               width="85%"
     >
 
-        <div ref="terminal" style="max-height: 800px"></div>
+    <div ref="terminal"></div>
+
     </el-dialog>
 </template>
 
@@ -17,6 +18,7 @@
     import * as fit from "xterm/lib/addons/fit/fit";
     import {Base64} from "js-base64";
     import * as webLinks from "xterm/lib/addons/webLinks/webLinks";
+    import * as search from "xterm/lib/addons/search/search";
 
     import "xterm/lib/addons/fullscreen/fullscreen.css";
     import "xterm/dist/xterm.css"
@@ -49,7 +51,8 @@
             websocket.send(
                 JSON.stringify({
                     type: "resize",
-                    data: {rows: size.rows, cols: size.cols}
+                    rows: size.rows,
+                    cols: size.cols
                 })
             );
         };
@@ -81,10 +84,8 @@
         let handleTerminalData = function (data) {
             websocket.send(
                 JSON.stringify({
-                    type: "terminal",
-                    data: {
-                        base64: Base64.encode(data) // encode data as base64 format
-                    }
+                    type: "cmd",
+                    cmd: Base64.encode(data) // encode data as base64 format
                 })
             );
         };
@@ -111,6 +112,8 @@
         name: "CompTerm",
         data() {
             return {
+                isFullScreen:false,
+                searchKey:"",
                 v: this.visible,
                 ws: null,
                 term: null,
@@ -157,9 +160,9 @@
             doOpened() {
                 Terminal.applyAddon(fit);
                 Terminal.applyAddon(webLinks);
-
-                // Terminal.applyAddon(search);
+                Terminal.applyAddon(search);
                 this.term = new Terminal({
+                    rows: 25,
                     fontSize: 18,
                     cursorBlink: true,
                     cursorStyle: 'bar',
@@ -167,9 +170,7 @@
                     theme: defaultTheme
                 });
                 this.term.open(this.$refs.terminal);
-                // Terminal.applyAddon(webLinks);
                 this.term.webLinksInit(this.doLink);
-
                 // term.on("resize", this.onTerminalResize);
                 window.addEventListener("resize", this.onWindowResize);
                 this.term.fit(); // first resizing

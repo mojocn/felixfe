@@ -168,7 +168,7 @@
                     this.btnNtitle = "Generate"
                 } else if (nIdx === 2) {
                     this.btnPtitle = "Previous";
-                    this.btnNtitle = "Next"
+                    this.btnNtitle = "Skip"
                 } else {
                     this.btnPtitle = "Previous";
                     this.btnNtitle = "Next"

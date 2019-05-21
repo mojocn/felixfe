@@ -29,8 +29,8 @@
             return {
                 loading: false,
                 ruleForm: {
-                    name: '',
-                    password: ''
+                    name: 'admin',
+                    password: 'admin'
                 }
             };
         },
