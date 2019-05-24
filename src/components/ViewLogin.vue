@@ -14,6 +14,7 @@
                 <el-button type="primary"
                            style="width:100%;"
                            :loading="loading"
+                           v-on:keyup.enter="handleLogin"
                            @click.native.prevent="handleLogin">
                     Login
                 </el-button>
@@ -42,7 +43,7 @@
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("expire_ts", res.data.expire_ts);
                         localStorage.setItem("expire", res.data.expire);
-                        this.$router.push({name: "sshList"});
+                        this.$router.push({name: "ssh"});
                     }
                     this.loading = false;
                 })

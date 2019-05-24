@@ -5,7 +5,7 @@
                @open="doOpen"
                @close="doClose"
                center
-               width="85%"
+               fullscreen
     >
 
     <div ref="terminal"></div>
@@ -162,7 +162,7 @@
                 Terminal.applyAddon(webLinks);
                 Terminal.applyAddon(search);
                 this.term = new Terminal({
-                    rows: 25,
+                    rows: 35,
                     fontSize: 18,
                     cursorBlink: true,
                     cursorStyle: 'bar',

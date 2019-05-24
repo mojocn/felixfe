@@ -9,7 +9,7 @@ const vueRouter = new Router({
         {
             path: "/login",
             name: "login",
-            component: () => import("@/components/Login"),
+            component: () => import("@/components/ViewLogin"),
         }
         ,
         {
@@ -18,6 +18,7 @@ const vueRouter = new Router({
             meta: {
                 title: "main"
             },
+
             component: () => import("@/components/Main"),
             //redirect: {name: 'sshList'},
             children: [
@@ -28,23 +29,31 @@ const vueRouter = new Router({
                     meta: {
                         title: "sftp awesome"
                     },
-                    component: () => import("@/components/Sftp")
+                    component: () => import("@/components/ViewSftp")
                 },
                 {
-                    path: "ssh/list",
-                    name: "sshList",
+                    path: "ssh",
+                    name: "ssh",
                     meta: {
                         title: "ssh list"
                     },
-                    component: () => import("@/components/SshList")
+                    component: () => import("@/components/ViewSsh")
                 },
                 {
-                    path: "ginbro/gen",
-                    name: "ginbroGen",
+                    path: "term-log",
+                    name: "termLog",
+                    meta: {
+                        title: "term-log"
+                    },
+                    component: () => import("@/components/ViewTermLog")
+                },
+                {
+                    path: "ginbro",
+                    name: "ginbro",
                     meta: {
                         title: "ginbro-gen"
                     },
-                    component: () => import("@/components/GinbroGen")
+                    component: () => import("@/components/ViewGinbro")
                 }
             ]
         }

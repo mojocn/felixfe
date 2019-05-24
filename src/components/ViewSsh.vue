@@ -148,7 +148,7 @@
             };
         },
         mounted() {
-            this.fetchSshList();
+            this.fetchAllTermLog();
         },
         created() {
         },
@@ -158,14 +158,14 @@
             },
             pageChange(val) {
                 this.page = val;
-                this.fetchSshList()
+                this.fetchAllTermLog()
             },
             sizeChange(val) {
                 this.page = 1;
                 this.size = val;
-                this.fetchSshList()
+                this.fetchAllTermLog()
             },
-            fetchSshList() {
+            fetchAllTermLog() {
                 let page = this.page;
                 let size = this.size;
                 let where = '';
@@ -208,7 +208,7 @@
                     if (res) {
                         this.$message.success("success");
                         this.dialogFormVisible = false;
-                        this.fetchSshList()
+                        this.fetchAllTermLog()
                     }
                 })
             },
@@ -229,7 +229,7 @@
             handleClickDelete(row) {
                 this.$http.delete(`api/ssh/${row.ID}`).then(res => {
                     if (res) {
-                        this.fetchSshList();
+                        this.fetchAllTermLog();
                         this.$message.success(res.msg)
                     }
                 })

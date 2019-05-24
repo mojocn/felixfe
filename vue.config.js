@@ -3,15 +3,15 @@ module.exports = {
     devServer: {
         //proxy:'http://localhost:2222'
         proxy: {
-            '/ws': {
-                target: 'ws://localhost:2222',
+            '/api/ws': {
+                target: 'ws://127.0.0.1:2222',
                 ws: true,
                 changeOrigin: true
             },
             '/api': {
-                ws: true,
+                ws: false,
                 changeOrigin: true,
-                target: 'http://localhost:2222'
+                target: 'http://127.0.0.1:2222'
             }
 
         }

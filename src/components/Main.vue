@@ -5,8 +5,9 @@
                 <el-submenu index="1">
                     <template slot="title"><i class="el-icon-message"></i>Felix</template>
                     <el-menu-item-group>
-                        <el-menu-item index="/ssh/list">SSH list</el-menu-item>
-                        <el-menu-item index="/ginbro/gen">ginbro</el-menu-item>
+                        <el-menu-item index="/ssh">SSH</el-menu-item>
+                        <el-menu-item index="/ginbro">Ginbro</el-menu-item>
+                        <el-menu-item index="/term-log">Term Log</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
@@ -18,9 +19,10 @@
                 <el-dropdown>
                     <i class="el-icon-setting" style="margin-right: 15px"></i>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>Login</el-dropdown-item>
-                        <el-dropdown-item>Edit</el-dropdown-item>
-                        <el-dropdown-item>Info</el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-link @click="doLogout">Logout</el-link>
+                        </el-dropdown-item>
+
                     </el-dropdown-menu>
                 </el-dropdown>
                 <span>Felix Ericsson Zhou</span>
@@ -41,7 +43,20 @@
 
 <script>
     export default {
-        name: "Main"
+        name: "Main",
+        methods: {
+            doLogout() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("expire_ts");
+                localStorage.removeItem("expire");
+                this.$router.push({name: "login"});
+            }
+        },
+        mounted() {
+            if (this.$route.path === '/') {
+                this.$router.push({name: 'ssh'})
+            }
+        }
     }
 </script>
 
