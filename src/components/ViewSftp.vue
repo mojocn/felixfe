@@ -184,6 +184,7 @@
 
 <script>
     export default {
+        name: "ViewSftp",
         props: ['ID', 'name', 'user'],
         data() {
             return {

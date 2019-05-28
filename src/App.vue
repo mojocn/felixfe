@@ -12,15 +12,8 @@ export default {
 </script>
 
 <style>
-  * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
   body {
     margin: 0;
-    height: 100%;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -31,12 +24,82 @@ export default {
     font-weight: 700;
   }
 
-  html {
-    height: 100%;
-    box-sizing: border-box;
-  }
 
   #app {
+    height: 100vh;
+  }
+
+  #felix {
+    border-radius: 4px;
+    margin: 8px;
+    background: #ffffff;
     height: 100%;
+  }
+
+  .el-submenu, .el-menu {
+    background: #1f2d3d !important;
+  }
+
+  .el-submenu .is-active, .sidebar-container .el-submenu .is-active:hover {
+    background-color: #1890ff !important;
+  }
+
+  .el-submenu__title {
+    color: white !important;
+    font-size: 14px;
+    color: #f5f7fa;
+  }
+
+  .el-submenu__title i {
+    color: white !important;
+  }
+
+  .el-submenu__title:hover {
+    background: black !important;
+  }
+
+  .el-container {
+    background-color: rgba(144, 146, 152, .3);
+  }
+
+  .el-menu-item {
+    color: white !important;
+  }
+
+  .el-menu {
+    border: 0 !important;
+  }
+
+  .el-submenu:hover {
+    background: #4e6783 !important;
+  }
+
+  .el-menu-item:hover {
+    background: #3e526a !important;
+  }
+
+  .el-aside {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    background: #304156;
+  }
+
+  .el-header {
+    padding: 15px 30px;
+    height: 50px !important;
+    background: #ffffff;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  .el-footer {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: #333;
+    background: #ffffff;
   }
 </style>

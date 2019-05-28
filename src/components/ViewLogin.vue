@@ -4,7 +4,8 @@
             <h2>Login to Felix-Ssh2ws</h2>
 
             <el-form-item prop="user">
-                <el-input v-model="ruleForm.user" prefix-icon="el-icon-user-solid"></el-input>
+                <el-input v-model="ruleForm.username" prefix-icon="el-icon-user-solid"
+                          placeholder="username or email"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input v-model="ruleForm.password" prefix-icon="el-icon-c-scale-to-original"
@@ -30,7 +31,7 @@
             return {
                 loading: false,
                 ruleForm: {
-                    name: 'admin',
+                    username: 'admin',
                     password: 'admin'
                 }
             };

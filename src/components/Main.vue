@@ -1,13 +1,32 @@
 <template>
-    <el-container style="height: 100%">
-        <el-aside width="200px">
-            <el-menu :default-openeds="['1', '3']" router style="height: 100%;background-color: rgb(238, 241, 246)">
+    <el-container>
+        <el-aside width="200">
+            <el-menu :default-openeds="['1','2','3']" router>
                 <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-message"></i>Felix</template>
+
+
+                    <template slot="title"><i class="el-icon-user"></i>User</template>
                     <el-menu-item-group>
+                        <template slot="title">user</template>
+                        <el-menu-item index="/user">User</el-menu-item>
+                    </el-menu-item-group>
+
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-message"></i>Ssh</template>
+                    <el-menu-item-group>
+                        <template slot="title">ssh</template>
                         <el-menu-item index="/ssh">SSH</el-menu-item>
-                        <el-menu-item index="/ginbro">Ginbro</el-menu-item>
                         <el-menu-item index="/term-log">Term Log</el-menu-item>
+                    </el-menu-item-group>
+
+                </el-submenu>
+
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-rank"></i>Ginbro</template>
+                    <el-menu-item-group>
+                        <template slot="title">RESTful-cli</template>
+                        <el-menu-item index="/ginbro">Generate</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
@@ -15,9 +34,9 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 12px">
+            <el-header>
                 <el-dropdown>
-                    <i class="el-icon-setting" style="margin-right: 15px"></i>
+                    <i class="el-icon-setting"></i>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>
                             <el-link @click="doLogout">Logout</el-link>
@@ -31,7 +50,7 @@
             <el-main id="felix">
                 <router-view></router-view>
             </el-main>
-            <el-footer height="80">
+            <el-footer height="60">
                 <p>Felix's frontend and backend are created by Eric Zhou</p>
                 <p>more about felix
                     <el-link type="primary" href="//github.com/dejavuzhou/felix">github.com/dejavuzhou/felix</el-link>
@@ -60,24 +79,6 @@
     }
 </script>
 
-<style scoped>
-    #felix {
-    }
-    .el-header {
-        background-color: #B3C0D1;
-        color: #333;
-        line-height: 60px;
-    }
+<style>
 
-    .el-aside {
-        color: #333;
-    }
-    .el-footer {
-        position: relative;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        color: #333;
-        background-color: #B3C0D1;
-    }
 </style>

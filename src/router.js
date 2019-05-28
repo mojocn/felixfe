@@ -48,6 +48,14 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewTermLog")
                 },
                 {
+                    path: "user",
+                    name: "user",
+                    meta: {
+                        title: "user"
+                    },
+                    component: () => import("@/components/ViewUser")
+                },
+                {
                     path: "ginbro",
                     name: "ginbro",
                     meta: {

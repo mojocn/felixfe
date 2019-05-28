@@ -5,7 +5,7 @@
             </el-table-column>
             <el-table-column prop="machine_name" label="Name">
             </el-table-column>
-            <el-table-column prop="machine_ip" label="IP">
+            <el-table-column prop="machine_host" label="Host">
             </el-table-column>
             <el-table-column prop="user_name" label="User" width="60">
             </el-table-column>
@@ -29,14 +29,14 @@
                     <el-button-group>
                         <el-button
                                 title="view ssh machine information"
-                                @click="handleClickView(scope.row)"
+                                @click="doView(scope.row)"
                                 type="success"
                                 size="small"
                                 icon="el-icon-monitor"
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
-                                @click="handleClickDelete(scope.row)"
+                                @click="doDelete(scope.row)"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
@@ -73,7 +73,7 @@
 <script>
 
     export default {
-        name: 'viewTermLog',
+        name: 'ViewTermLog',
         data() {
             return {
                 selectedLog: "",
@@ -83,25 +83,25 @@
                 size: 10,
                 tableData: [],
                 q: "",
-                info: {}
             };
         },
         mounted() {
-            this.fetchAllTermLog();
+            this.fetchAllUser();
         },
         created() {
         },
         methods: {
             pageChange(val) {
                 this.page = val;
-                this.fetchAllTermLog()
+                this.fetchAllUser()
             },
             sizeChange(val) {
                 this.page = 1;
                 this.size = val;
-                this.fetchAllTermLog()
+                this.fetchAllUser()
             },
-            fetchAllTermLog() {
+
+            fetchAllUser() {
                 let page = this.page;
                 let size = this.size;
                 let where = '';
@@ -117,16 +117,16 @@
 
                     })
             },
-            handleClickView(row) {
+            doView(row) {
                 this.selectedLog = row.log.replace(/\r/gi, "\r\n");
                 //this.selectedLog = row.log
                 this.dialogInfoVisible = true;
             },
 
-            handleClickDelete(row) {
+            doDelete(row) {
                 this.$http.delete(`api/term-log/${row.ID}`).then(res => {
                     if (res) {
-                        this.fetchAllTermLog();
+                        this.fetchAllUser();
                         this.$message.success(res.msg)
                     }
                 })

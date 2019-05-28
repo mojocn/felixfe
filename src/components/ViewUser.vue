@@ -1,7 +1,3 @@
-<style scoped>
-
-
-</style>
 <template>
     <div>
         <el-row>
@@ -10,61 +6,50 @@
             </el-col>
             <el-col :span="20"></el-col>
         </el-row>
-        <br>
         <el-table :data="tableData" border style="width: 100%" stripe>
             <el-table-column fixed prop="ID" label="ID" width="50">
             </el-table-column>
-            <el-table-column prop="name" label="Name">
+            <el-table-column label="Avatar" width="80">
+                <template slot-scope="scope">
+                    <img v-bind:src="scope.row.avatar" width="40px"/>
+                </template>
             </el-table-column>
-            <el-table-column prop="ip" label="IP">
+            <el-table-column prop="username" label="name">
             </el-table-column>
-            <el-table-column prop="port" label="Port" width="60">
+            <el-table-column prop="email" label="email">
             </el-table-column>
-            <el-table-column prop="user" label="User" width="120">
+            <el-table-column prop="mobile" label="Mobile" width="180">
             </el-table-column>
-            <el-table-column prop="type" label="Type" width="120">
+
+            <el-table-column label="CreatedAt" width="180">
+                <template slot-scope="scope">
+                    {{scope.row.CreatedAt.substr(0,19)}}
+                </template>
             </el-table-column>
             <el-table-column label="UpdatedAt" width="180">
                 <template slot-scope="scope">
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
+
             <el-table-column fixed="right" label="Action" width="240">
                 <template slot-scope="scope">
                     <el-button-group>
                         <el-button
-                                title="open terminal"
-                                @click="handleClickConsole(scope.row)"
-                                type="primary"
-                                size="small"
-                                icon="el-icon-video-play"
-                        ></el-button>
-                        <el-button
-                                title="edit ssh connection configuration"
-                                @click="handleClickUpdate(scope.row)"
-                                type="warning"
+                                title="view ssh machine information"
+                                @click="doUpdate(scope.row)"
+                                :disabled="scope.row.ID == 1"
+                                type="success"
                                 size="small"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
-                                title="view ssh machine information"
-                                @click="handleClickView(scope.row)"
-                                type="success"
-                                size="small"
-                                icon="el-icon-monitor"
-                        ></el-button>
-                        <el-button
                                 title="delete ssh connection"
-                                @click="handleClickDelete(scope.row)"
+                                @click="doDelete(scope.row)"
+                                :disabled="scope.row.ID == 1"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
-                        ></el-button>
-                        <el-button
-                                title="open a sftp app"
-                                @click="handleClickSftp(scope.row)"
-                                size="small"
-                                icon="el-icon-sort"
                         ></el-button>
                     </el-button-group>
 
@@ -82,28 +67,31 @@
                 :total="total">
         </el-pagination>
 
+
         <!--edit-->
         <el-dialog title="ssh" :visible.sync="dialogFormVisible">
             <el-form :model="form">
-                <el-form-item label="ssh name" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                <el-form-item label="UserName" label-width="formLabelWidth">
+                    <el-input v-model="form.username" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="ssh host" :label-width="formLabelWidth">
-                    <el-input v-model="form.host" autocomplete="off"></el-input>
+                <el-form-item label="password" label-width="formLabelWidth">
+                    <el-input v-model="form.password" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="ssh user" :label-width="formLabelWidth">
-                    <el-input v-model="form.user" autocomplete="off"></el-input>
+                <el-form-item label="email" label-width="formLabelWidth">
+                    <el-input v-model="form.email" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="ssh password" :label-width="formLabelWidth">
-                    <el-input v-model="form.password" autocomplete="off" show-password></el-input>
+                <el-form-item label="mobile" label-width="formLabelWidth">
+                    <el-input v-model="form.mobile" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="ssh port" :label-width="formLabelWidth">
-                    <el-input v-model="form.port" autocomplete="off"></el-input>
+                <el-form-item label="avatar" label-width="formLabelWidth">
+                    <el-input v-model="form.avatar" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="auth type" :label-width="formLabelWidth">
-                    <el-select v-model="form.type" placeholder="请选择活动区域">
-                        <el-option label="password" value="password"></el-option>
-                        <el-option label="private key" value="key"></el-option>
+                <el-form-item label="Role" label-width="formLabelWidth">
+                    <el-select v-model="form.role_id" placeholder="role">
+                        <el-option label="SuperAdmin" :value="2"></el-option>
+                        <el-option label="OPS" :value="4"></el-option>
+                        <el-option label="Dev" :value="8"></el-option>
+                        <el-option label="Test" :value="16"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -112,43 +100,25 @@
                 <el-button type="primary" @click="handleFormSubmit">Submit</el-button>
             </div>
         </el-dialog>
-        <!-- info -->
-        <el-dialog title="SSH Machine Hardware Infomartion" :visible.sync="dialogInfoVisible">
-            <pre v-text="JSON.stringify(info, null, 4)">
 
-            </pre>
-
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogInfoVisible = false">Close</el-button>
-            </div>
-        </el-dialog>
-
-        <comp-term :obj="selectedRow" :visible="termVisible" @pclose="doClose"></comp-term>
     </div>
 
 </template>
 
 <script>
-    import CompTerm from "./CompTerm";
 
     export default {
-        components: {CompTerm},
-        name: "ViewSsh",
-        props: ['ID', 'name', 'user'],
+        name: 'ViewUser',
         data() {
             return {
-                termVisible: false,
-                selectedRow: {},
-                dialogInfoVisible: false,
-                formLabelWidth: '120px',
+                formLabelWidth: "120",
                 dialogFormVisible: false,
                 total: 0,
                 page: 1,
                 size: 10,
                 tableData: [],
-                q: "",
                 form: {},
-                info: {}
+                q: "",
             };
         },
         mounted() {
@@ -157,8 +127,8 @@
         created() {
         },
         methods: {
-            doClose(flag) {
-                this.termVisible = flag
+            doCreate() {
+                this.dialogFormVisible = true
             },
             pageChange(val) {
                 this.page = val;
@@ -174,7 +144,7 @@
                 let size = this.size;
                 let where = '';
                 this.$http
-                    .get("api/ssh", {params: {where, page, size}})
+                    .get("api/user", {params: {where, page, size}})
                     .then(resp => {
                         if (resp) {
                             this.total = resp.total;
@@ -185,15 +155,7 @@
 
                     })
             },
-            handleClickConsole(row) {
-                this.selectedRow = row;
-                this.termVisible = true;
-                // this.$router.push({'name': 'sshConsole', params: row})
-            },
-            handleClickSftp(row) {
-                this.$router.push({'name': 'sftp', params: row})
-            },
-            handleClickUpdate(row) {
+            doUpdate(row) {
                 this.form = row;
                 this.dialogFormVisible = true
             },
@@ -202,9 +164,9 @@
                 let url = '';
                 if (this.form.ID > 0) {
                     method = "patch";
-                    url = `api/ssh/${this.form.ID}`
+                    url = `api/user/${this.form.ID}`
                 } else {
-                    url = 'api/ssh';
+                    url = 'api/user';
                     method = "post"
                 }
                 let data = this.form;
@@ -216,22 +178,8 @@
                     }
                 })
             },
-            doUpdate(row) {
-                this.info = row;
-                this.$http.get(`api/ssh/${row.ID}`).then(res => {
-                    if (res) {
-                        this.info = res.data;
-
-                    }
-                    this.dialogInfoVisible = true;
-                })
-            },
-            doCreate() {
-                this.form = {user: '', port: 22, password: '', name: '', ID: 0, type: "password"};
-                this.dialogFormVisible = true
-            },
             doDelete(row) {
-                this.$http.delete(`api/ssh/${row.ID}`).then(res => {
+                this.$http.delete(`api/user/${row.ID}`).then(res => {
                     if (res) {
                         this.fetchAllUser();
                         this.$message.success(res.msg)
@@ -241,3 +189,7 @@
         }
     };
 </script>
+<style scoped>
+
+
+</style>
