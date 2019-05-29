@@ -4,6 +4,7 @@ import Router from "vue-router";
 Vue.use(Router);
 
 const vueRouter = new Router({
+    $breadCrumbs: ['main'],
     mode: "hash",
     routes: [
         {
@@ -16,7 +17,7 @@ const vueRouter = new Router({
             path: "/",
             name: "main",
             meta: {
-                title: "main"
+                title: "Home"
             },
 
             component: () => import("@/components/Main"),
@@ -27,7 +28,11 @@ const vueRouter = new Router({
                     name: "sftp",
                     props: true,
                     meta: {
-                        title: "sftp awesome"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ssh', title: 'Ssh'}, {
+                            name: 'sftp',
+                            title: 'Sftp'
+                        }],
+                        title: "Sftp"
                     },
                     component: () => import("@/components/ViewSftp")
                 },
@@ -35,6 +40,8 @@ const vueRouter = new Router({
                     path: "ssh",
                     name: "ssh",
                     meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ssh', title: 'Ssh'}],
+
                         title: "ssh list"
                     },
                     component: () => import("@/components/ViewSsh")
@@ -43,7 +50,8 @@ const vueRouter = new Router({
                     path: "term-log",
                     name: "termLog",
                     meta: {
-                        title: "term-log"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'termLog', title: 'termLog'}],
+                        title: "termLog"
                     },
                     component: () => import("@/components/ViewTermLog")
                 },
@@ -51,7 +59,8 @@ const vueRouter = new Router({
                     path: "user",
                     name: "user",
                     meta: {
-                        title: "user"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'user', title: 'User'}],
+                        title: "Users"
                     },
                     component: () => import("@/components/ViewUser")
                 },
@@ -59,7 +68,8 @@ const vueRouter = new Router({
                     path: "ginbro",
                     name: "ginbro",
                     meta: {
-                        title: "ginbro-gen"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ginbro', title: 'Ginbro'}],
+                        title: "Ginbro"
                     },
                     component: () => import("@/components/ViewGinbro")
                 }
@@ -67,5 +77,6 @@ const vueRouter = new Router({
         }
     ]
 });
+
 
 export default vueRouter;

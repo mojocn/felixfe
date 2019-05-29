@@ -44,6 +44,7 @@
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("expire_ts", res.data.expire_ts);
                         localStorage.setItem("expire", res.data.expire);
+                        localStorage.setItem("user", JSON.stringify(res.data));
                         this.$router.push({name: "ssh"});
                     }
                     this.loading = false;

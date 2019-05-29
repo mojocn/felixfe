@@ -4,13 +4,12 @@
 </style>
 <template>
     <div>
-        <el-row>
+        <el-row class="toolbar" type="flex">
             <el-col :span="4">
                 <el-button icon="el-icon-s-promotion" type="primary" @click="doCreate"></el-button>
             </el-col>
             <el-col :span="20"></el-col>
         </el-row>
-        <br>
         <el-table :data="tableData" border style="width: 100%" stripe>
             <el-table-column fixed prop="ID" label="ID" width="50">
             </el-table-column>

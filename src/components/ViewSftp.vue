@@ -4,13 +4,31 @@
         width: 100%;
     }
 
+    .sftp-tree {
+        border-radius: 4px;
+        color: white;
+        padding: 30px;
+        background: black;
+        margin: 40px 30px 30px 30px;
+    }
+
     .el-col > a {
         margin-right: 20px;
     }
+
+    .file-name {
+        margin: 8px !important;
+    }
+
+    .isdir {
+        font-weight: lighter;
+    }
+
+
 </style>
 <template>
     <section>
-        <el-row justify="center" type="flex" :gutter="80">
+        <el-row justify="center" type="flex" class="toolbar" align="middle">
             <el-col :span="6">
                 <el-button icon="el-icon-back" @click="$router.go(-1)" type="primary"></el-button>
             </el-col>
@@ -18,13 +36,16 @@
         </el-row>
 
         <el-tree
-                accordion
+                class="sftp-tree"
                 :load="loadNode"
                 lazy
+                indent="30"
+                default-expanded-keys="/"
                 :data="data"
                 :props="defaultProps"
                 node-key="path">
-            <el-row :gutter="20" class="custom-tree-node" slot-scope="{ node, data }" justify="center" type="flex">
+            <el-row :gutter="20" :class="{'custom-tree-node':true,'isdir':data.is_dir}" slot-scope="{ node, data }"
+                    justify="center" type="flex">
                 <el-col :span="1">
                     <el-link icon="el-icon-folder" type="success" v-if="data.is_dir"></el-link>
                     <el-link icon="el-icon-document-checked" type="primary" v-if="!data.is_dir"></el-link>
@@ -173,7 +194,8 @@
                 :visible.sync="catDialogVisible"
                 width="50%"
                 center>
-            <pre v-text="catData"></pre>
+            <pre v-text="catData"
+                 style="font-size:14px;color: lightgray;background: #0e2231;padding: 20px;border-radius: 4px"></pre>
         </el-dialog>
 
     </section>
