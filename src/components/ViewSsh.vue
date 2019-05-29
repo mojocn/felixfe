@@ -23,14 +23,13 @@
             </el-table-column>
             <el-table-column prop="type" label="Type" width="120">
             </el-table-column>
-            <el-table-column label="UpdatedAt" width="180">
+            <el-table-column label="UpdatedAt" width="170">
                 <template slot-scope="scope">
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Action" width="240">
+            <el-table-column fixed="right" label="Action" width="260" align="center">
                 <template slot-scope="scope">
-                    <el-button-group>
                         <el-button
                                 title="open terminal"
                                 @click="handleClickConsole(scope.row)"
@@ -50,7 +49,7 @@
                                 @click="handleClickView(scope.row)"
                                 type="success"
                                 size="small"
-                                icon="el-icon-monitor"
+                                icon="el-icon-view"
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
@@ -65,7 +64,6 @@
                                 size="small"
                                 icon="el-icon-sort"
                         ></el-button>
-                    </el-button-group>
 
                 </template>
             </el-table-column>
@@ -198,12 +196,10 @@
             },
             handleFormSubmit() {
                 let method = 'post';
-                let url = '';
+                let url = 'api/ssh';
                 if (this.form.ID > 0) {
                     method = "patch";
-                    url = `api/ssh/${this.form.ID}`
                 } else {
-                    url = 'api/ssh';
                     method = "post"
                 }
                 let data = this.form;

@@ -39,8 +39,8 @@
                 class="sftp-tree"
                 :load="loadNode"
                 lazy
-                indent="30"
-                default-expanded-keys="/"
+                :indent="30"
+                :default-expanded-keys="['/']"
                 :data="data"
                 :props="defaultProps"
                 node-key="path">
@@ -194,8 +194,7 @@
                 :visible.sync="catDialogVisible"
                 width="50%"
                 center>
-            <pre v-text="catData"
-                 style="font-size:14px;color: lightgray;background: #0e2231;padding: 20px;border-radius: 4px"></pre>
+            <pre v-text="catData" class="cat-view"></pre>
         </el-dialog>
 
     </section>

@@ -1,13 +1,19 @@
 <template>
     <div>
         <el-table :data="tableData" border style="width: 100%" stripe>
-            <el-table-column fixed prop="ID" label="ID" width="50">
-            </el-table-column>
-            <el-table-column prop="machine_name" label="Name">
-            </el-table-column>
-            <el-table-column prop="machine_host" label="Host">
-            </el-table-column>
+            <el-table-column fixed prop="ID" label="ID" width="50"></el-table-column>
             <el-table-column prop="user_name" label="User" width="60">
+            </el-table-column>
+            <el-table-column prop="machine_name" label="Name" align="center">
+            </el-table-column>
+            <el-table-column prop="machine_host" label="Host" align="center">
+            </el-table-column>
+
+            <el-table-column label="level" width="80" align="center">
+                <template slot-scope="scope">
+                    <el-tag :type="levelType(scope.row)" :title="levelType(scope.row)"><i
+                            class="el-icon-warning-outline"></i></el-tag>
+                </template>
             </el-table-column>
             <el-table-column label="start" width="120">
                 <template slot-scope="scope">
@@ -24,24 +30,14 @@
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Action" width="240">
+            <el-table-column fixed="right" label="Action" width="80" align="center">
                 <template slot-scope="scope">
-                    <el-button-group>
-                        <el-button
-                                title="view ssh machine information"
-                                @click="doView(scope.row)"
-                                type="success"
-                                size="small"
-                                icon="el-icon-monitor"
-                        ></el-button>
-                        <el-button
-                                title="delete ssh connection"
-                                @click="doDelete(scope.row)"
-                                type="danger"
-                                size="small"
-                                icon="el-icon-delete-solid"
-                        ></el-button>
-                    </el-button-group>
+                    <el-button
+                            type="primary"
+                            title="view ssh machine information"
+                            @click="doView(scope.row)"
+                            icon="el-icon-view"
+                    ></el-button>
 
                 </template>
             </el-table-column>
@@ -60,9 +56,12 @@
 
         <!-- info -->
         <el-dialog title="SSH Xterm.js Input Logs" :visible.sync="dialogInfoVisible">
-            <pre v-text="selectedLog"></pre>
+            <pre v-text="selectedLog" class="cat-view"></pre>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogInfoVisible = false">Close</el-button>
+                <el-button @click="doMark(4)" title="mark danger" icon="el-icon-error" type="danger"></el-button>
+                <el-button @click="doMark(2)" title="mark warning" icon="el-icon-message-solid"
+                           type="warning"></el-button>
+                <el-button @click="doDelete" title="delete" icon="el-icon-delete-solid"></el-button>
             </div>
         </el-dialog>
 
@@ -76,6 +75,7 @@
         name: 'ViewTermLog',
         data() {
             return {
+                selectedRow: {},
                 selectedLog: "",
                 dialogInfoVisible: false,
                 total: 0,
@@ -91,6 +91,17 @@
         created() {
         },
         methods: {
+            levelType(row) {
+                switch (row.level) {
+                    case 4:
+                        return "danger";
+                    case 2:
+                        return "warning";
+                    default:
+                        return "info";
+                }
+            },
+
             pageChange(val) {
                 this.page = val;
                 this.fetchAllUser()
@@ -118,16 +129,29 @@
                     })
             },
             doView(row) {
+                this.selectedRow = row;
                 this.selectedLog = row.log.replace(/\r/gi, "\r\n");
                 //this.selectedLog = row.log
                 this.dialogInfoVisible = true;
             },
-
-            doDelete(row) {
-                this.$http.delete(`api/term-log/${row.ID}`).then(res => {
+            doMark(level) {
+                let ID = this.selectedRow.ID;
+                this.$http.patch(`api/term-log`, {ID, level}).then(res => {
                     if (res) {
                         this.fetchAllUser();
-                        this.$message.success(res.msg)
+                        this.$message.success(res.msg);
+                        this.dialogInfoVisible = false;
+
+                    }
+                });
+                this.dialogInfoVisible = false;
+            },
+            doDelete() {
+                this.$http.delete(`api/term-log/${this.selectedRow.ID}`).then(res => {
+                    if (res) {
+                        this.fetchAllUser();
+                        this.$message.success(res.msg);
+                        this.dialogInfoVisible = false;
                     }
                 })
             }

@@ -114,4 +114,17 @@
     .el-tree-node__content:hover, .el-tree-node:focus > .el-tree-node__content {
         background-color: #4b4b4b !important;
     }
+
+    .cat-view {
+        font-size: 14px;
+        color: lightgray;
+        background: #0e2231;
+        padding: 20px;
+        border-radius: 4px
+    }
+
+    .cell > button {
+        font-size: 1.25rem !important;
+        padding: 0.25rem 0.5rem;
+    }
 </style>

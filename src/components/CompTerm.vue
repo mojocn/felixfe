@@ -6,9 +6,10 @@
                @close="doClose"
                center
                fullscreen
+               custom-class="felix-dialog"
     >
 
-    <div ref="terminal"></div>
+        <div ref="terminal" class="felix-xterm"></div>
 
     </el-dialog>
 </template>
@@ -19,7 +20,6 @@
     import {Base64} from "js-base64";
     import * as webLinks from "xterm/lib/addons/webLinks/webLinks";
     import * as search from "xterm/lib/addons/search/search";
-
     import "xterm/lib/addons/fullscreen/fullscreen.css";
     import "xterm/dist/xterm.css"
     import config from "@/config/config"
@@ -162,7 +162,7 @@
                 Terminal.applyAddon(webLinks);
                 Terminal.applyAddon(search);
                 this.term = new Terminal({
-                    rows: 35,
+                    rows: 40,
                     fontSize: 18,
                     cursorBlink: true,
                     cursorStyle: 'bar',
@@ -194,6 +194,34 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .felix-xterm {
+        padding: 0;
+        bottom: 0;
+        top: 0;
 
+    }
+
+    .felix-dialog {
+        background-color: #1b212f !important;
+        margin: 0 !important;
+
+    }
+
+    .el-dialog__body {
+        /*border: white solid 1px!important;*/
+        padding: 0 !important;
+        min-height: calc(100vh - 100px) !important;
+    }
+
+    .el-dialog__title {
+        color: white;
+        font-weight: bold;
+    }
+
+    .felix-dialog .el-dialog__headerbtn {
+        font-size: 2rem !important;
+        color: white;
+        font-weight: bold !important;
+    }
 </style>

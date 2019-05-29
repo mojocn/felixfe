@@ -51,7 +51,7 @@ const vueRouter = new Router({
                     name: "termLog",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'termLog', title: 'termLog'}],
-                        title: "termLog"
+                        title: "Term Log"
                     },
                     component: () => import("@/components/ViewTermLog")
                 },

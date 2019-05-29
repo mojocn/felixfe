@@ -161,12 +161,10 @@
             },
             handleFormSubmit() {
                 let method = 'post';
-                let url = '';
+                let url = 'api/user';
                 if (this.form.ID > 0) {
                     method = "patch";
-                    url = `api/user/${this.form.ID}`
                 } else {
-                    url = 'api/user';
                     method = "post"
                 }
                 let data = this.form;
