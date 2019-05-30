@@ -110,11 +110,8 @@
             </div>
         </el-dialog>
         <!-- info -->
-        <el-dialog title="SSH Machine Hardware Infomartion" :visible.sync="dialogInfoVisible">
-            <pre v-text="JSON.stringify(info, null, 4)">
-
-            </pre>
-
+        <el-dialog title="SSH Machine Hardware Infomartion" :visible.sync="dialogInfoVisible" width="80%">
+            <pre v-text="JSON.stringify(info, null, 2)"></pre>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogInfoVisible = false">Close</el-button>
             </div>
@@ -211,7 +208,7 @@
                     }
                 })
             },
-            doUpdate(row) {
+            handleClickView(row) {
                 this.info = row;
                 this.$http.get(`api/ssh/${row.ID}`).then(res => {
                     if (res) {

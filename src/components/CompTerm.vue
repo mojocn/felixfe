@@ -20,7 +20,6 @@
     import {Base64} from "js-base64";
     import * as webLinks from "xterm/lib/addons/webLinks/webLinks";
     import * as search from "xterm/lib/addons/search/search";
-    import "xterm/lib/addons/fullscreen/fullscreen.css";
     import "xterm/dist/xterm.css"
     import config from "@/config/config"
 
@@ -162,7 +161,7 @@
                 Terminal.applyAddon(webLinks);
                 Terminal.applyAddon(search);
                 this.term = new Terminal({
-                    rows: 40,
+                    //rows: 20,
                     fontSize: 18,
                     cursorBlink: true,
                     cursorStyle: 'bar',
@@ -170,10 +169,10 @@
                     theme: defaultTheme
                 });
                 this.term.open(this.$refs.terminal);
+                this.term.fit(); // first resizing
                 this.term.webLinksInit(this.doLink);
                 // term.on("resize", this.onTerminalResize);
                 window.addEventListener("resize", this.onWindowResize);
-                this.term.fit(); // first resizing
                 this.ws = new WebSocket(this.wsUrl);
                 this.ws.onerror = () => {
                     this.$message.error('ws has no token, please login first');
@@ -186,6 +185,8 @@
                 };
                 bindTerminal(this.term, this.ws, true, -1);
                 bindTerminalResize(this.term, this.ws);
+
+
             },
 
         },
@@ -196,10 +197,7 @@
 
 <style>
     .felix-xterm {
-        padding: 0;
-        bottom: 0;
-        top: 0;
-
+        height: calc(100vh - 60px) !important;
     }
 
     .felix-dialog {
@@ -208,13 +206,13 @@
 
     }
 
-    .el-dialog__body {
+    .felix-dialog .el-dialog__body {
         /*border: white solid 1px!important;*/
         padding: 0 !important;
-        min-height: calc(100vh - 100px) !important;
+
     }
 
-    .el-dialog__title {
+    .felix-dialog .el-dialog__title {
         color: white;
         font-weight: bold;
     }

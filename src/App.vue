@@ -127,4 +127,12 @@
         font-size: 1.25rem !important;
         padding: 0.25rem 0.5rem;
     }
+
+    .el-dialog__body > pre {
+        border-radius: 0.25rem;
+        max-height: 50vh;
+        background: black;
+        color: #f5f7fa;
+        overflow: auto;
+    }
 </style>
