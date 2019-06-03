@@ -63,6 +63,7 @@
         });
     };
     let bindTerminal = (term, websocket, bidirectional, bufferedTime) => {
+        term.write('\r\nwelcome to https://github.com/dejavuzhou/felix\n\r\n');
         term.socket = websocket;
         let messageBuffer = null;
         let handleWebSocketMessage = function (ev) {
@@ -111,8 +112,8 @@
         name: "CompTerm",
         data() {
             return {
-                isFullScreen:false,
-                searchKey:"",
+                isFullScreen: false,
+                searchKey: "",
                 v: this.visible,
                 ws: null,
                 term: null,
@@ -174,19 +175,24 @@
                 // term.on("resize", this.onTerminalResize);
                 window.addEventListener("resize", this.onWindowResize);
                 this.ws = new WebSocket(this.wsUrl);
-                this.ws.onerror = () => {
-                    this.$message.error('ws has no token, please login first');
-                    this.$router.push({name: 'login'});
+                // this.ws.onerror = event => {
+                //     console.log(event)
+                //     this.$message.error('ssh ws failed please retry or check your auth config');
+                // };
+                this.ws.onclose = (ce) => {
+                    //console.log(ce)
+                    this.term.setOption("cursorBlink", false);
+                    if (ce.code !== 1005) {
+                        this.$notify.error({
+                            title: `code ${ce.code}`,
+                            message: ce.reason,
+                        });
+                        this.doClose();
+                    }
                 };
 
-                this.ws.onclose = () => {
-                    this.term.setOption("cursorBlink", false);
-                    this.$message("console.web_socket_disconnect")
-                };
                 bindTerminal(this.term, this.ws, true, -1);
                 bindTerminalResize(this.term, this.ws);
-
-
             },
 
         },

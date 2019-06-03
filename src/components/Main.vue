@@ -5,7 +5,7 @@
                 <el-submenu index="1">
                     <template slot="title"><i class="el-icon-user"></i>User</template>
                     <el-menu-item-group>
-                        <template slot="title">user</template>
+                        <template slot="title">User Management</template>
                         <el-menu-item index="/user">User</el-menu-item>
                     </el-menu-item-group>
 
@@ -13,17 +13,16 @@
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-message"></i>Ssh</template>
                     <el-menu-item-group>
-                        <template slot="title">ssh</template>
-                        <el-menu-item index="/ssh">SSH</el-menu-item>
-                        <el-menu-item index="/term-log">Term Log</el-menu-item>
+                        <template slot="title">Ssh & Sftp helper</template>
+                        <el-menu-item index="/ssh">Ssh/Sftp</el-menu-item>
+                        <el-menu-item index="/term-log">SshReplay</el-menu-item>
                     </el-menu-item-group>
-
                 </el-submenu>
 
                 <el-submenu index="3">
                     <template slot="title"><i class="el-icon-rank"></i>Ginbro</template>
                     <el-menu-item-group>
-                        <template slot="title">RESTful-cli</template>
+                        <template slot="title">RESTful Cli</template>
                         <el-menu-item index="/ginbro">Generate</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
@@ -87,7 +86,6 @@
 </template>
 
 <script>
-
     export default {
         name: "Main",
         computed: {

@@ -40,9 +40,8 @@ const vueRouter = new Router({
                     path: "ssh",
                     name: "ssh",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'ssh', title: 'Ssh'}],
-
-                        title: "ssh list"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ssh', title: 'Ssh/Sftp'}],
+                        title: "Ssh/Sftp"
                     },
                     component: () => import("@/components/ViewSsh")
                 },
@@ -50,8 +49,8 @@ const vueRouter = new Router({
                     path: "term-log",
                     name: "termLog",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'termLog', title: 'termLog'}],
-                        title: "Term Log"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'termLog', title: 'SshReplay'}],
+                        title: "SshReplay"
                     },
                     component: () => import("@/components/ViewTermLog")
                 },

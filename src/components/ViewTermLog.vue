@@ -8,6 +8,8 @@
             </el-table-column>
             <el-table-column prop="machine_host" label="Host" align="center">
             </el-table-column>
+            <el-table-column prop="ip" label="IP" align="center">
+            </el-table-column>
 
             <el-table-column label="level" width="80" align="center">
                 <template slot-scope="scope">

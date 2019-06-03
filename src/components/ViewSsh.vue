@@ -53,7 +53,7 @@
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
-                                @click="handleClickDelete(scope.row)"
+                                @click="doDelete(scope.row)"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
