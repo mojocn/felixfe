@@ -71,6 +71,15 @@ const vueRouter = new Router({
                         title: "Ginbro"
                     },
                     component: () => import("@/components/ViewGinbro")
+                },
+                {
+                    path: "nes",
+                    name: "nes",
+                    meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'nes', title: 'Nes'}],
+                        title: "NES"
+                    },
+                    component: () => import("@/components/ViewNes")
                 }
             ]
         }

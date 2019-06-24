@@ -26,7 +26,13 @@
                         <el-menu-item index="/ginbro">Generate</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-rank"></i>Nes</template>
+                    <el-menu-item-group>
+                        <template slot="title">Nes</template>
+                        <el-menu-item index="/nes">Nes</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
             </el-menu>
         </el-aside>
 
