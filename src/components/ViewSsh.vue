@@ -64,7 +64,6 @@
                                 size="small"
                                 icon="el-icon-sort"
                         ></el-button>
-
                 </template>
             </el-table-column>
         </el-table>
@@ -118,6 +117,8 @@
         </el-dialog>
 
         <comp-term :obj="selectedRow" :visible="termVisible" @pclose="doClose"></comp-term>
+
+
     </div>
 
 </template>
@@ -184,6 +185,7 @@
                 this.termVisible = true;
                 // this.$router.push({'name': 'sshConsole', params: row})
             },
+
             handleClickSftp(row) {
                 this.$router.push({'name': 'sftp', params: row})
             },

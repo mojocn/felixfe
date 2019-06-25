@@ -80,6 +80,15 @@ const vueRouter = new Router({
                         title: "NES"
                     },
                     component: () => import("@/components/ViewNes")
+                },
+                {
+                    path: "tlog",
+                    name: "tlog",
+                    meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'tlog', title: 'tlog'}],
+                        title: "Term Slack Log"
+                    },
+                    component: () => import("@/components/ViewTermLog")
                 }
             ]
         }

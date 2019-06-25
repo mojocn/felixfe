@@ -11,7 +11,7 @@
             <el-tag type="warning">z -> SELECT</el-tag>
             <el-tag type="warning">x -> START</el-tag>
         </p>
-        <canvas id="nes-canvas" width="256" height="240" style="width: 50%"/>
+        <canvas id="nes-canvas" ref="nes" width="256" height="240" style="width: 50%"/>
     </div>
 </template>
 
@@ -35,7 +35,7 @@
 
     let nes = new jsnes.NES({
         onFrame: function (framebuffer_24) {
-            for (var i = 0; i < FRAMEBUFFER_SIZE; i++) framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
+            for (let i = 0; i < FRAMEBUFFER_SIZE; i++) framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
         },
         onAudioSample: function (l, r) {
             audio_samples_L[audio_write_cursor] = l;
@@ -57,15 +57,15 @@
 
     function audio_callback(event) {
         let dst = event.outputBuffer;
-        var len = dst.length;
+        let len = dst.length;
 
         // Attempt to avoid buffer underruns.
         if (audio_remain() < AUDIO_BUFFERING) nes.frame();
 
         let dst_l = dst.getChannelData(0);
         let dst_r = dst.getChannelData(1);
-        for (var i = 0; i < len; i++) {
-            var src_idx = (audio_read_cursor + i) & SAMPLE_MASK;
+        for (let i = 0; i < len; i++) {
+            let src_idx = (audio_read_cursor + i) & SAMPLE_MASK;
             dst_l[i] = audio_samples_L[src_idx];
             dst_r[i] = audio_samples_R[src_idx];
         }
@@ -74,7 +74,7 @@
     }
 
     function keyboard(callback, event) {
-        var player = 1;
+        let player = 1;
         switch (event.keyCode) {
             case 87: // w UP
                 callback(player, jsnes.Controller.BUTTON_UP);
@@ -108,7 +108,7 @@
     }
 
     function nes_init(canvas_id) {
-        var canvas = document.getElementById(canvas_id);
+        let canvas = document.getElementById(canvas_id);
         canvas_ctx = canvas.getContext("2d");
         image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -116,13 +116,13 @@
         canvas_ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         // Allocate framebuffer array.
-        var buffer = new ArrayBuffer(image.data.length);
+        let buffer = new ArrayBuffer(image.data.length);
         framebuffer_u8 = new Uint8ClampedArray(buffer);
         framebuffer_u32 = new Uint32Array(buffer);
 
         // Setup audio.
-        var audio_ctx = new window.AudioContext();
-        var script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
+        let audio_ctx = new window.AudioContext();
+        let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
         script_processor.onaudioprocess = audio_callback;
 
         script_processor.connect(audio_ctx.destination);
@@ -146,15 +146,18 @@
             };
         },
         created() {
+
+
+        },
+        mounted() {
+            //let canvas = document.getElementById(canvas_id);
             document.addEventListener('keydown', (event) => {
                 keyboard(nes.buttonDown, event)
             });
             document.addEventListener('keyup', (event) => {
                 keyboard(nes.buttonUp, event)
             });
-        },
-        mounted() {
-            let canvas = document.getElementById(canvas_id);
+            let canvas = this.$refs.nes;
             canvas_ctx = canvas.getContext("2d");
             image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -169,15 +172,13 @@
             // Setup audio.
             this.audio_ctx = new window.AudioContext();
             this.script_processor = this.audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
-            //this.script_processor.addEventListener(AudioProcessingEvent,audio_callback )
             this.script_processor.onaudioprocess = audio_callback;
 
-            //script_processor.addEventListener("AudioProcessingEvent",audio_callback)
             this.script_processor.connect(this.audio_ctx.destination);
 
 
             let req = new XMLHttpRequest();
-            let path = "/sd.nes";
+            let path = "/contra.nes";
             req.open("GET", path);
             req.overrideMimeType("text/plain; charset=x-user-defined");
             req.onerror = () => {
@@ -196,8 +197,11 @@
             req.send();
         },
         beforeDestroy() {
-            this.script_processor.disconnect();
+            document.removeEventListener("keydown");
+            document.removeEventListener("keyup");
             this.script_processor = null;
+            this.audio_ctx.close();
+            this.audio_ctx = null
         },
         methods: {}
     };

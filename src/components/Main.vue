@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="200">
-            <el-menu :default-openeds="['1','2','3']" router>
+            <el-menu :default-openeds="['1','2','3','4','5']" router>
                 <el-submenu index="1">
                     <template slot="title"><i class="el-icon-user"></i>User</template>
                     <el-menu-item-group>
@@ -31,6 +31,13 @@
                     <el-menu-item-group>
                         <template slot="title">Nes</template>
                         <el-menu-item index="/nes">Nes</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="5">
+                    <template slot="title"><i class="el-icon-message"></i>Tlog</template>
+                    <el-menu-item-group>
+                        <template slot="title">Tlog</template>
+                        <el-menu-item index="/tlog">Tlog</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
