@@ -82,13 +82,13 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewNes")
                 },
                 {
-                    path: "tlog",
-                    name: "tlog",
+                    path: "slog",
+                    name: "slog",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'tlog', title: 'tlog'}],
+                        breads: [{name: 'main', title: 'Home'}, {name: 'slog', title: 'slog'}],
                         title: "Term Slack Log"
                     },
-                    component: () => import("@/components/ViewTermLog")
+                    component: () => import("@/components/ViewSlackLog")
                 }
             ]
         }

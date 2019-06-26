@@ -21,7 +21,8 @@ function terminadoAttach(term, socket, bidirectional, buffered) {
     addonTerminal.__getMessage = function (ev) {
         var data = JSON.parse(ev.data);
         if (data[0] === 'stdout') {
-            let decodedData = window.atob(data[1]);
+            //let decodedData = window.atob(data[1]);
+            let decodedData = data[1];
             console.log(decodedData);
             if (buffered) {
                 addonTerminal.__pushToBuffer(decodedData);

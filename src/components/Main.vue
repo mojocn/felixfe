@@ -34,10 +34,10 @@
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="5">
-                    <template slot="title"><i class="el-icon-message"></i>Tlog</template>
+                    <template slot="title"><i class="el-icon-message"></i>slog</template>
                     <el-menu-item-group>
-                        <template slot="title">Tlog</template>
-                        <el-menu-item index="/tlog">Tlog</el-menu-item>
+                        <template slot="title">log with slack hook</template>
+                        <el-menu-item index="/slog">slog</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
