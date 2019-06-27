@@ -35,8 +35,8 @@
                                 icon="el-icon-delete-solid"
                         ></el-button>
                         <el-button
-                                title="copy Hook URL"
-                                @click="doCopyURL(scope.row)"
+                                title="how to use Hook"
+                                @click="doHelp(scope.row)"
                                 type="success"
                                 size="small"
                                 icon="el-icon-document-copy"
@@ -79,14 +79,35 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+
+        <!--how to use hook-->
+        <el-dialog
+                title="使用说明"
+                :visible.sync="hookDv"
+                width="85%"
+                center>
+            <h3>Hook URL</h3>
+            <h4 type="success">{{hookURL}}</h4>
+            <pre v-text="hookCode"></pre>
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="hookDv = false">Close</el-button>
+                <el-button type="primary" @click="doCopyText(hookURL)">Copy hookURL</el-button>
+                <el-button type="success" @click="doCopyText(hookCode)">Copy hookCode</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+
     export default {
         name: "ViewWslogHook",
         data() {
             return {
+                hookURL: "",
+                hookCode: "",
+                hookDv: false,
                 page: 1,
                 size: 10,
                 total: 0,
@@ -109,10 +130,70 @@
         },
         methods: {
 
-            doCopyURL(row) {
-                var el = document.createElement('textarea');
+            doHelp(row) {
+                this.hookURL = `http://${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
+                this.hookCode = `
+curl -X POST \\
+  '${this.hookURL}' \\
+  -H 'Content-Type: application/json' \\
+  -H 'Postman-Token: 38928ade-cf38-4734-ae0d-a086894beb06' \\
+  -H 'cache-control: no-cache' \\
+  -d '{
+    "text": "",
+    "username": "felixAPP",
+    "icon_url": "",
+    "icon_emoji": ":shark:",
+    "channel": "#felix",
+    "unfurl_links": false,
+    "attachments": [
+      {
+        "title": "",
+        "fallback": "this mgs error c)EX)gNcGAJURrOAGo8i1)1XuT1k1dau+N",
+        "text": "Message fields",
+        "pretext": "this mgs error c)EX)gNcGAJURrOAGo8i1)1XuT1k1dau+N",
+        "color": "danger",
+        "fields": [
+          {
+            "title": "fBool",
+            "value": "false",
+            "short": true
+          },
+          {
+            "title": "fFloat",
+            "value": "0.45",
+            "short": true
+          },
+          {
+            "title": "time",
+            "value": "2019-06-27 17:58:15.814461 +0800 CST m=+176.146665501",
+            "short": false
+          },
+          {
+            "title": "error",
+            "value": "error fmt format: felix is awesome",
+            "short": false
+          },
+          {
+            "title": "fstring",
+            "value": "awesome",
+            "short": true
+          },
+          {
+            "title": "fint",
+            "value": "1",
+            "short": true
+          }
+        ]
+      }
+    ]
+  }'
+                `;
+                this.hookDv = true;
+            },
+            doCopyText(txt) {
+                let el = document.createElement('textarea');
                 // Set value (string to be copied)
-                el.value = `http://${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
+                el.value = txt;
                 // Set non-editable to avoid focus and move outside of view
                 el.setAttribute('readonly', '');
                 el.style = {position: 'absolute', left: '-9999px'};
