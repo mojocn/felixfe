@@ -36,9 +36,10 @@
                 <el-submenu index="5">
                     <template slot="title"><i class="el-icon-message"></i>wslog</template>
                     <el-menu-item-group>
-                        <template slot="title">wslog:slack hook</template>
-                        <el-menu-item index="/wslog/group">group</el-menu-item>
-                        <el-menu-item index="/wslog">ws</el-menu-item>
+                        <template slot="title">Websocket Log</template>
+                        <el-menu-item index="/wslog/hook">Hook</el-menu-item>
+                        <el-menu-item index="/wslog-msg-rt">MsgRt</el-menu-item>
+                        <el-menu-item index="/wslog-msg-hi">MsgHi</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>

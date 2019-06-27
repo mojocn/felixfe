@@ -84,7 +84,7 @@
 
 <script>
     export default {
-        name: "ViewWslogGroup",
+        name: "ViewWslogHook",
         data() {
             return {
                 page: 1,
@@ -112,7 +112,7 @@
             doCopyURL(row) {
                 var el = document.createElement('textarea');
                 // Set value (string to be copied)
-                el.value = `http://${window.location.host}/api/wslog/hook?_t=${row.token}`;
+                el.value = `http://${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
                 // Set non-editable to avoid focus and move outside of view
                 el.setAttribute('readonly', '');
                 el.style = {position: 'absolute', left: '-9999px'};
@@ -134,7 +134,7 @@
                 this.dialogFormVisible = true
             },
             doDelete(row) {
-                this.$http.delete(`api/wslog/group/${row.ID}`).then(res => {
+                this.$http.delete(`api/wslog/hook/${row.ID}`).then(res => {
                     if (res) {
                         this.fetchList();
                         this.$message.success(res.msg)
@@ -152,7 +152,7 @@
             },
             doFormSubmit() {
                 let method = 'post';
-                const url = 'api/wslog/group';
+                const url = 'api/wslog/hook';
                 if (this.form.ID > 0) {
                     method = "patch";
                 } else {
@@ -171,7 +171,7 @@
                 let page = this.page;
                 let size = this.size;
                 this.$http
-                    .get("api/wslog/group", {params: {page, size}})
+                    .get("api/wslog/hook", {params: {page, size}})
                     .then(res => {
                         if (res) {
                             this.total = res.total;

@@ -82,22 +82,31 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewNes")
                 },
                 {
-                    path: "wslog",
-                    name: "wslog",
+                    path: "wslog-msg-rt",
+                    name: "wslogMsgRt",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'wslog', title: 'wslog'}],
-                        title: "Term Slack Log"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgRt', title: 'ViewWslogMsgRt'}],
+                        title: "ws log msg real time"
                     },
-                    component: () => import("@/components/ViewSlackLog")
+                    component: () => import("@/components/ViewWslogMsgRt")
                 },
                 {
-                    path: "wslog/group",
-                    name: "wslogGroup",
+                    path: "wslog-msg-hi",
+                    name: "wslogMsgHi",
+                    meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgHi', title: 'ViewWslogMsgHi'}],
+                        title: "ws log msg history"
+                    },
+                    component: () => import("@/components/ViewWslogMsgHi")
+                },
+                {
+                    path: "wslog/hook",
+                    name: "wslogHook",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'slog', title: 'slog'}],
                         title: "wslog group create"
                     },
-                    component: () => import("@/components/ViewWslogGroup")
+                    component: () => import("@/components/ViewWslogHook")
                 }
             ]
         }

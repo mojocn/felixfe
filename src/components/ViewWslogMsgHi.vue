@@ -1,30 +1,32 @@
 <template>
     <div>
 
-        <el-table :data="msgs"
+        <el-table :data="tableData"
                   :default-sort="{prop: 'created_at', order: 'descending'}"
                   border style="width: 100%" stripe>
             <el-table-column label="CreatedAt" width="170">
                 <template slot-scope="scope">
-                    {{humanTime(scope.row.created_at)}}
+                    {{humanTime(scope.row.CreatedAt)}}
                 </template>
             </el-table-column>
             <el-table-column label="TYPE" width="170">
                 <template slot-scope="scope">
-                    <el-tag :type="scope.row.attachments[0].color">{{scope.row.attachments[0].color}}</el-tag>
+                    <el-tag :type="scope.row.slack_msg.attachments[0].color">
+                        {{scope.row.slack_msg.attachments[0].color}}
+                    </el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="channel" label="channel" width="80">
+            <el-table-column prop="slack_msg.channel" label="channel" width="80">
             </el-table-column>
-            <el-table-column prop="icon_emoji" label="ICON" width="80">
+            <el-table-column prop="slack_msg.icon_emoji" label="ICON" width="80">
             </el-table-column>
-            <el-table-column prop="username" label="User" width="80">
+            <el-table-column prop="slack_msg.username" label="User" width="80">
             </el-table-column>
             <el-table-column label="detail">
                 <template slot-scope="scope">
-                    <h4 v-text="scope.row.attachments[0].fallback"></h4>
-                    <p v-for="(ff,idx) in scope.row.attachments[0].fields" :key="idx">
-                        <el-tag :type="scope.row.attachments[0].color" v-text="ff.title"></el-tag>
+                    <h4 v-text="scope.row.slack_msg.attachments[0].fallback"></h4>
+                    <p v-for="(ff,idx) in scope.row.slack_msg.attachments[0].fields" :key="idx">
+                        <el-tag :type="scope.row.slack_msg.attachments[0].color" v-text="ff.title"></el-tag>
                         =>
                         <el-tag v-text="ff.value"></el-tag>
                     </p>
@@ -52,7 +54,16 @@
                 </template>
             </el-table-column>
         </el-table>
-
+        <el-pagination
+                style="margin-top: 20px"
+                @size-change="sizeChange"
+                @current-change="pageChange"
+                :current-page="page"
+                :page-sizes="[10,15, 30, 45, 60]"
+                :page-size="size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
         <el-dialog
                 title="Wslog Hook Log View As JSON"
                 :visible.sync="logDialogV"
@@ -65,52 +76,59 @@
 
 <script>
 
-    import config from "@/config/config"
-
     export default {
-        name: "ViewSlackLog",
+        name: "ViewWslogMsgHi",
         data() {
             return {
+                page: 1,
+                size: 10,
+                total: 0,
+                tableData: [],
                 logDialogV: false,
                 logData: '',
-                msgs: [],
             };
         },
-        computed: {
-            wsUrl() {
-                let token = localStorage.getItem('token');
-                return `${config.wsBase}/api/wslog/ws?&_t=${token}`
-            }
-        },
+
         mounted() {
-            let ws = new WebSocket(this.wsUrl);
-            ws.onmessage = ev => {
-                let obj = JSON.parse(ev.data);
-                this.msgs.unshift(obj)
-            };
-            ws.onclose = ce => {
-                if (ce.code !== 1005) {
-                    this.$notify.error({
-                        title: `code ${ce.code}`,
-                        message: ce.reason,
-                    });
-                }
-            };
-            this.ws = ws
-        },
-        beforeDestroy() {
-            this.ws.close()
+            this.fetchList()
         },
         created() {
 
         },
         methods: {
             doDelete(row) {
-                this.msgs = this.msgs.filter(ele => ele.id != row.id)
+                this.$http.delete(`api/wslog/msg/${row.ID}`).then(res => {
+                    if (res) {
+                        this.fetchList()
+                    }
+                })
             },
             doView(row) {
                 this.logDialogV = true;
                 this.logData = JSON.stringify(row, null, 2)
+            },
+            fetchList() {
+                let page = this.page;
+                let size = this.size;
+                this.$http
+                    .get("api/wslog/msg", {params: {page, size}})
+                    .then(res => {
+                        if (res) {
+                            this.total = res.total;
+                            this.size = res.size;
+                            this.page = res.page;
+                            this.tableData = res.data
+                        }
+                    })
+            },
+            pageChange(val) {
+                this.page = val;
+                this.fetchList()
+            },
+            sizeChange(val) {
+                this.page = 1;
+                this.size = val;
+                this.fetchList()
             },
             humanTime(ss) {
                 let thDate = new Date(ss);
