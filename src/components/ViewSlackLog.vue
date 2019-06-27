@@ -6,8 +6,7 @@
                   border style="width: 100%" stripe>
             <el-table-column label="CreatedAt" width="170">
                 <template slot-scope="scope">
-                    {{scope.row.created_at.substr(0,19)}}
-
+                    {{humanTime(scope.row.created_at)}}
                 </template>
             </el-table-column>
             <el-table-column label="TYPE" width="170">
@@ -37,7 +36,7 @@
 
                     <el-button
                             title="view ssh machine information"
-                            @click="handleClickView(scope.row)"
+                            @click="doView(scope.row)"
                             type="success"
                             size="small"
                             icon="el-icon-view"
@@ -54,7 +53,13 @@
             </el-table-column>
         </el-table>
 
-
+        <el-dialog
+                title="Wslog Hook Log View As JSON"
+                :visible.sync="logDialogV"
+                width="50%"
+                center>
+            <pre v-text="logData" class="cat-view"></pre>
+        </el-dialog>
     </div>
 </template>
 
@@ -66,16 +71,24 @@
         name: "ViewSlackLog",
         data() {
             return {
+                logDialogV: false,
+                logData: '',
                 msgs: [],
             };
         },
+        computed: {
+            wsUrl() {
+                let token = localStorage.getItem('token');
+                return `${config.wsBase}/api/wslog/ws?&_t=${token}`
+            }
+        },
         mounted() {
-            let ws = new WebSocket(`${config.wsBase}/api/tlog-ws`);
+            let ws = new WebSocket(this.wsUrl);
             ws.onmessage = ev => {
                 let obj = JSON.parse(ev.data);
                 this.msgs.unshift(obj)
             };
-            ws.onclose = (ce) => {
+            ws.onclose = ce => {
                 if (ce.code !== 1005) {
                     this.$notify.error({
                         title: `code ${ce.code}`,
@@ -91,7 +104,38 @@
         created() {
 
         },
-        methods: {}
+        methods: {
+            doDelete(row) {
+                this.msgs = this.msgs.filter(ele => ele.id != row.id)
+            },
+            doView(row) {
+                this.logDialogV = true;
+                this.logData = JSON.stringify(row, null, 2)
+            },
+            humanTime(ss) {
+                let thDate = new Date(ss);
+                let curMts = Date.now();
+                let thiMts = thDate.getTime();
+                let diffts = (curMts - thiMts) / 1000;
+
+
+                let Y = thDate.getFullYear(),
+                    m = thDate.getMonth() + 1,
+                    d = thDate.getDate();
+                let H = thDate.getHours(),
+                    i = thDate.getMinutes();
+
+                if (diffts < 60) { // 一分钟以内
+                    return `${Math.floor(diffts % 60)}s ago`;
+                } else if (diffts < 3600) { // 一小时前之内
+                    return `${Math.floor(diffts / 60)}m ago`;
+                } else if (diffts < 3600 * 24) { // 一小时前之内
+                    return `${Math.floor(diffts / 3600)}h ago`;
+                } else {
+                    return `${Y}-${m}-${d}T${H}:${i}`
+                }
+            },
+        }
     };
 </script>
 <style scoped>

@@ -209,11 +209,11 @@
         props: ['ID', 'name', 'user'],
         data() {
             return {
-                catData: "",
+                logData: "",
                 uploadUrl: '',
                 fileList: [],
                 uploadDialogVisible: false,
-                catDialogVisible: false,
+                logDialogV: false,
                 data: [{name: "$HOME", path: "~", is_dir: true}, {name: "/", path: "/", is_dir: true}],
                 q: "",
                 id: 0,
