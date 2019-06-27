@@ -88,7 +88,12 @@
             let ws = new WebSocket(this.wsUrl);
             ws.onmessage = ev => {
                 let obj = JSON.parse(ev.data);
-                this.msgs.unshift(obj)
+                this.msgs.unshift(obj);
+                this.$notify({
+                    title: 'received a msg from hook',
+                    message: obj.slack_msg.attachments[0].fallback,
+                    type: "success"
+                });
             };
             ws.onclose = ce => {
                 if (ce.code !== 1005) {

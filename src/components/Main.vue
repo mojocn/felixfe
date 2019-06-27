@@ -55,6 +55,20 @@
                 </el-breadcrumb>
 
                 <div class="header-addons">
+                    <!--change lange-->
+                    <el-dropdown>
+
+                        <span v-text="lang" style="margin-right: 2rem;"
+                        > </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>
+                                <el-link @click="changeLang('cn')" type="success">中文</el-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                                <el-link @click="changeLang('us')" type="danger">English</el-link>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
 
                     <el-tooltip content="Help" placement="top">
                         <el-link icon="el-icon-question" class="addon-icon" :underline="false" target="_blank"
@@ -65,6 +79,8 @@
                         <el-link icon="el-icon-s-comment" class="addon-icon" :underline="false" target="_blank"
                                  href="https://join.slack.com/t/360-co/shared_invite/enQtNjQyNDQ5NzUwMDY1LTBhOTAxOTM1MDA4YTU4YmI4ZGUxMGM4MWYxYzhkYmM2ZWM4NjA1NWY4Y2JkMjEwNzdiYWU1MWNiNzM3ZTg5ZTY"></el-link>
                     </el-tooltip>
+
+                    <!--用户-->
                     <el-dropdown>
 
                         <img v-if="user" :src="user.avatar"
@@ -103,6 +119,11 @@
 <script>
     export default {
         name: "Main",
+        data() {
+            return {
+                lang: "English",
+            }
+        },
         computed: {
             user() {
                 let js = localStorage.getItem("user");
@@ -119,6 +140,14 @@
             window.document.title = this.$route.meta.title || "Felix"
         },
         methods: {
+            changeLang(lang) {
+                this.$i18n.locale = lang;
+                if (lang === 'cn') {
+                    this.lang = '中文'
+                } else if (lang === 'us') {
+                    this.lang = 'English'
+                }
+            },
             doLogout() {
                 localStorage.removeItem("token");
                 localStorage.removeItem("expire_ts");

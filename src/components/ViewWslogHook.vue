@@ -39,7 +39,7 @@
                                 @click="doHelp(scope.row)"
                                 type="success"
                                 size="small"
-                                icon="el-icon-document-copy"
+                                icon="el-icon-help"
                         ></el-button>
                     </el-button-group>
 

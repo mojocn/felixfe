@@ -86,7 +86,7 @@ const vueRouter = new Router({
                     name: "wslogMsgRt",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgRt', title: 'ViewWslogMsgRt'}],
-                        title: "ws log msg real time"
+                        title: "wslog msg real time"
                     },
                     component: () => import("@/components/ViewWslogMsgRt")
                 },
@@ -95,7 +95,7 @@ const vueRouter = new Router({
                     name: "wslogMsgHi",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgHi', title: 'ViewWslogMsgHi'}],
-                        title: "ws log msg history"
+                        title: "wslog msg history"
                     },
                     component: () => import("@/components/ViewWslogMsgHi")
                 },
@@ -104,7 +104,7 @@ const vueRouter = new Router({
                     name: "wslogHook",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'slog', title: 'slog'}],
-                        title: "wslog group create"
+                        title: "wslog hook"
                     },
                     component: () => import("@/components/ViewWslogHook")
                 }
