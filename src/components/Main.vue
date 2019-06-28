@@ -37,6 +37,7 @@
                     <template slot="title"><i class="el-icon-message"></i>wslog</template>
                     <el-menu-item-group>
                         <template slot="title">Websocket Log</template>
+                        <el-menu-item index="/wslog/channel">Channel</el-menu-item>
                         <el-menu-item index="/wslog/hook">Hook</el-menu-item>
                         <el-menu-item index="/wslog-msg-rt">MsgRt</el-menu-item>
                         <el-menu-item index="/wslog-msg-hi">MsgHi</el-menu-item>

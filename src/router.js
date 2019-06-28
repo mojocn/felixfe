@@ -100,6 +100,15 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewWslogMsgHi")
                 },
                 {
+                    path: "wslog/channel",
+                    name: "wslogChannel",
+                    meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'slog', title: 'slog'}],
+                        title: "wslog channel"
+                    },
+                    component: () => import("@/components/ViewWslogChannel")
+                },
+                {
                     path: "wslog/hook",
                     name: "wslogHook",
                     meta: {

@@ -60,9 +60,19 @@
 
         <!--edit-->
         <el-dialog title="WsLog Hook App" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="App Name">
+            <el-form :model="form" label-width="120px">
+                <el-form-item label="Name">
                     <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="Channel">
+                    <el-select v-model="form.channel_id" placeholder="请选择">
+                        <el-option
+                                v-for="item in allChannel"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.ID">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="Hook Expire At">
@@ -105,6 +115,7 @@
         name: "ViewWslogHook",
         data() {
             return {
+                allChannel: [],
                 hookURL: "",
                 hookCode: "",
                 hookDv: false,
@@ -114,6 +125,7 @@
                 tableData: [],
                 dialogFormVisible: false,
                 form: {
+                    channel_id: null,
                     name: "",
                     expire_at: null,
                 },
@@ -121,7 +133,8 @@
         },
 
         mounted() {
-            this.fetchList()
+            this.fetchList();
+            this.fetchAllChannels()
         },
         beforeDestroy() {
         },
@@ -129,7 +142,17 @@
 
         },
         methods: {
-
+            fetchAllChannels() {
+                let page = 1;
+                let size = Number.MAX_SAFE_INTEGER;
+                this.$http
+                    .get("api/wslog/channel", {params: {page, size}})
+                    .then(res => {
+                        if (res) {
+                            this.allChannel = res.data
+                        }
+                    })
+            },
             doHelp(row) {
                 this.hookURL = `http://${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
                 this.hookCode = `
@@ -211,7 +234,7 @@ curl -X POST \\
                 this.dialogFormVisible = true
             },
             doCreate() {
-                this.form.Id = 0;
+                this.form.id = 0;
                 this.dialogFormVisible = true
             },
             doDelete(row) {
