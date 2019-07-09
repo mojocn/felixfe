@@ -71,6 +71,7 @@
                 center>
             <pre v-text="logData" class="cat-view"></pre>
         </el-dialog>
+
     </div>
 </template>
 
@@ -130,29 +131,39 @@
                 this.size = val;
                 this.fetchList()
             },
-            humanTime(ss) {
-                let thDate = new Date(ss);
-                let curMts = Date.now();
-                let thiMts = thDate.getTime();
-                let diffts = (curMts - thiMts) / 1000;
-
-
-                let Y = thDate.getFullYear(),
-                    m = thDate.getMonth() + 1,
-                    d = thDate.getDate();
-                let H = thDate.getHours(),
-                    i = thDate.getMinutes();
-
-                if (diffts < 60) { // 一分钟以内
-                    return `${Math.floor(diffts % 60)}s ago`;
-                } else if (diffts < 3600) { // 一小时前之内
-                    return `${Math.floor(diffts / 60)}m ago`;
-                } else if (diffts < 3600 * 24) { // 一小时前之内
-                    return `${Math.floor(diffts / 3600)}h ago`;
+            humanTime: function (timeS) {
+                let date = new Date(timeS);
+                let delta = Math.round((+new Date - date) / 1000);
+                let minute = 60;
+                let hour = minute * 60;
+                let day = hour * 24;
+                let week = day * 7;
+                let mm = day * 31;
+                let fuzzy;
+                if (delta < 30) {
+                    fuzzy = '现在';
+                } else if (delta < minute) {
+                    fuzzy = delta + ' 秒前';
+                } else if (delta < 2 * minute) {
+                    fuzzy = '一分钟前'
+                } else if (delta < hour) {
+                    fuzzy = Math.floor(delta / minute) + ' minutes ago.';
+                } else if (Math.floor(delta / hour) == 1) {
+                    fuzzy = '一小时前'
+                } else if (delta < day) {
+                    fuzzy = Math.floor(delta / hour) + ' 小时前';
+                } else if (delta < day * 2) {
+                    fuzzy = '昨天';
+                } else if (delta < week) {
+                    fuzzy = Math.floor(delta / day) + ' 天前';
+                } else if (delta < mm) {
+                    fuzzy = Math.floor(delta / week) + ' 周前';
                 } else {
-                    return `${Y}-${m}-${d}T${H}:${i}`
+                    fuzzy = date.toISOString().slice(2, 10).replace('T', ' ')
+
                 }
-            },
+                return fuzzy
+            }
         }
     };
 </script>

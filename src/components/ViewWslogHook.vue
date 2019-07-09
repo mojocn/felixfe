@@ -68,7 +68,7 @@
                     <el-select v-model="form.channel_id" placeholder="请选择">
                         <el-option
                                 v-for="item in allChannel"
-                                :key="item.id"
+                                :key="item.ID"
                                 :label="item.name"
                                 :value="item.ID">
                         </el-option>

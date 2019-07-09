@@ -113,7 +113,7 @@
                 this.dialogFormVisible = true
             },
             doCreate() {
-                this.form.Id = 0;
+                this.form.ID = 0;
                 this.dialogFormVisible = true
             },
             doDelete(row) {
