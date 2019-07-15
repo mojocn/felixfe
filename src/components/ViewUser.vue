@@ -2,7 +2,7 @@
     <div>
         <el-row type="flex" justify="start" align="middle" class="toolbar">
             <el-col :span="4">
-                <el-button icon="el-icon-s-cooperation" type="primary" @click="doCreate" title="add a user"></el-button>
+                <el-button type="primary" @click="doCreate" title="add a user">{{$t('btnAdd')}}</el-button>
             </el-col>
             <el-col :span="20"></el-col>
         </el-row>

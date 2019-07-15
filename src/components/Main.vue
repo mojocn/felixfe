@@ -3,44 +3,44 @@
         <el-aside width="200">
             <el-menu :default-openeds="['1','2','3','4','5']" router>
                 <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-user"></i>User</template>
+                    <template slot="title"><i class="el-icon-user"></i>{{$t('user')}}</template>
                     <el-menu-item-group>
-                        <template slot="title">User Management</template>
-                        <el-menu-item index="/user">User</el-menu-item>
+                        <template slot="title">{{$t('userManage')}}</template>
+                        <el-menu-item index="/user">{{$t('user')}}</el-menu-item>
                     </el-menu-item-group>
 
                 </el-submenu>
                 <el-submenu index="2">
-                    <template slot="title"><i class="el-icon-message"></i>Ssh</template>
+                    <template slot="title"><i class="el-icon-film"></i>Ssh</template>
                     <el-menu-item-group>
                         <template slot="title">Ssh & Sftp helper</template>
                         <el-menu-item index="/ssh">Ssh/Sftp</el-menu-item>
-                        <el-menu-item index="/term-log">SshReplay</el-menu-item>
+                        <el-menu-item index="/term-log" v-text="$t('sshAudit')"></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
                 <el-submenu index="3">
                     <template slot="title"><i class="el-icon-rank"></i>Ginbro</template>
                     <el-menu-item-group>
-                        <template slot="title">RESTful Cli</template>
-                        <el-menu-item index="/ginbro">Generate</el-menu-item>
+                        <template slot="title">{{$t('restCli')}}</template>
+                        <el-menu-item index="/ginbro" v-text="$t('ginbroGen')"></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="4">
-                    <template slot="title"><i class="el-icon-rank"></i>Nes</template>
+                    <template slot="title"><i class="el-icon-s-goods"></i>{{$t('game')}}</template>
                     <el-menu-item-group>
-                        <template slot="title">Nes</template>
-                        <el-menu-item index="/nes">Nes</el-menu-item>
+                        <template slot="title">{{$t('gameNes')}}</template>
+                        <el-menu-item index="/nes">{{$t('gameNes')}}</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="5">
-                    <template slot="title"><i class="el-icon-message"></i>wslog</template>
+                    <template slot="title"><i class="el-icon-message"></i>{{$t('wslog')}}</template>
                     <el-menu-item-group>
-                        <template slot="title">Websocket Log</template>
-                        <el-menu-item index="/wslog/channel">Channel</el-menu-item>
-                        <el-menu-item index="/wslog/hook">Hook</el-menu-item>
-                        <el-menu-item index="/wslog-msg-rt">MsgRt</el-menu-item>
-                        <el-menu-item index="/wslog-msg-hi">MsgHi</el-menu-item>
+                        <template slot="title">{{$t('wslogWs')}}</template>
+                        <el-menu-item index="/wslog/channel">{{$t('wslogChannel')}}</el-menu-item>
+                        <el-menu-item index="/wslog/hook">{{$t('wslogHook')}}</el-menu-item>
+                        <el-menu-item index="/wslog-msg-rt">{{$t('wslogMsgRt')}}</el-menu-item>
+                        <el-menu-item index="/wslog-msg-hi">{{$t('wslogMsgHi')}}</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -126,6 +126,9 @@
             }
         },
         computed: {
+            clang() {
+                return this.$i18n.locale;
+            },
             user() {
                 let js = localStorage.getItem("user");
                 if (!js) {

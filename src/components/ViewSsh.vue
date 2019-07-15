@@ -6,7 +6,7 @@
     <div>
         <el-row class="toolbar" type="flex">
             <el-col :span="4">
-                <el-button icon="el-icon-s-promotion" type="primary" @click="doCreate"></el-button>
+                <el-button type="primary" @click="doCreate">{{$t('btnAdd')}}</el-button>
             </el-col>
             <el-col :span="20"></el-col>
         </el-row>
@@ -28,15 +28,22 @@
                     {{scope.row.UpdatedAt.substr(0,19)}}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="Action" width="260" align="center">
+            <el-table-column fixed="right" label="Action" width="280" align="center">
                 <template slot-scope="scope">
                         <el-button
                                 title="open terminal"
                                 @click="handleClickConsole(scope.row)"
                                 type="primary"
                                 size="small"
-                                icon="el-icon-video-play"
-                        ></el-button>
+
+                        >ssh
+                        </el-button>
+                    <el-button
+                            title="open a sftp app"
+                            @click="handleClickSftp(scope.row)"
+                            size="small"
+                    >sftp
+                    </el-button>
                         <el-button
                                 title="edit ssh connection configuration"
                                 @click="handleClickUpdate(scope.row)"
@@ -58,12 +65,7 @@
                                 size="small"
                                 icon="el-icon-delete-solid"
                         ></el-button>
-                        <el-button
-                                title="open a sftp app"
-                                @click="handleClickSftp(scope.row)"
-                                size="small"
-                                icon="el-icon-sort"
-                        ></el-button>
+
                 </template>
             </el-table-column>
         </el-table>
