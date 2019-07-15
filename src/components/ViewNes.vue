@@ -18,7 +18,7 @@
 <script>
     import * as jsnes from "jsnes"
 
-    const canvas_id = "nes-canvas";
+    //const canvas_id = "nes-canvas";
     let SCREEN_WIDTH = 256;
     let SCREEN_HEIGHT = 240;
     let FRAMEBUFFER_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT;
@@ -107,26 +107,26 @@
         }
     }
 
-    function nes_init(canvas_id) {
-        let canvas = document.getElementById(canvas_id);
-        canvas_ctx = canvas.getContext("2d");
-        image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        canvas_ctx.fillStyle = "black";
-        canvas_ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        // Allocate framebuffer array.
-        let buffer = new ArrayBuffer(image.data.length);
-        framebuffer_u8 = new Uint8ClampedArray(buffer);
-        framebuffer_u32 = new Uint32Array(buffer);
-
-        // Setup audio.
-        let audio_ctx = new window.AudioContext();
-        let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
-        script_processor.onaudioprocess = audio_callback;
-
-        script_processor.connect(audio_ctx.destination);
-    }
+    // function nes_init(canvas_id) {
+    //     let canvas = document.getElementById(canvas_id);
+    //     canvas_ctx = canvas.getContext("2d");
+    //     image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //
+    //     canvas_ctx.fillStyle = "black";
+    //     canvas_ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //
+    //     // Allocate framebuffer array.
+    //     let buffer = new ArrayBuffer(image.data.length);
+    //     framebuffer_u8 = new Uint8ClampedArray(buffer);
+    //     framebuffer_u32 = new Uint32Array(buffer);
+    //
+    //     // Setup audio.
+    //     let audio_ctx = new window.AudioContext();
+    //     let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
+    //     script_processor.onaudioprocess = audio_callback;
+    //
+    //     script_processor.connect(audio_ctx.destination);
+    // }
 
     function nes_boot(rom_data) {
         nes.loadROM(rom_data);
