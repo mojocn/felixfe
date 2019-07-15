@@ -147,7 +147,7 @@
                 } else if (delta < 2 * minute) {
                     fuzzy = '一分钟前'
                 } else if (delta < hour) {
-                    fuzzy = Math.floor(delta / minute) + ' minutes ago.';
+                    fuzzy = Math.floor(delta / minute) + ' 分钟前';
                 } else if (Math.floor(delta / hour) == 1) {
                     fuzzy = '一小时前'
                 } else if (delta < day) {

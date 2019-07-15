@@ -144,7 +144,7 @@
         methods: {
             fetchAllChannels() {
                 let page = 1;
-                let size = Number.MAX_SAFE_INTEGER;
+                let size = 99999;
                 this.$http
                     .get("api/wslog/channel", {params: {page, size}})
                     .then(res => {
