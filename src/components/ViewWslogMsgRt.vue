@@ -81,7 +81,7 @@
         computed: {
             wsUrl() {
                 let token = localStorage.getItem('token');
-                return `${config.wsBase}/api/wslog/ws?&_t=${token}`
+                return `${config.wsBase}/api/ws/hook?&_t=${token}`
             }
         },
         mounted() {

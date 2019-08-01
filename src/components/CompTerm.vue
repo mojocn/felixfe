@@ -128,7 +128,7 @@
         computed: {
             wsUrl() {
                 let token = localStorage.getItem('token');
-                return `${config.wsBase}/api/ws/${this.obj.ID || 0}?cols=${this.term.cols}&rows=${this.term.rows}&_t=${token}`
+                return `${config.wsBase}/api/ws/ssh/${this.obj.ID || 0}?cols=${this.term.cols}&rows=${this.term.rows}&_t=${token}`
             }
         },
 
