@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Interfaces.js",
+  "sourceRoot": "",
+  "sources": [
+    "../../../src/addons/terminado/Interfaces.ts"
+  ],
+  "names": [],
+  "mappings": ""
+}

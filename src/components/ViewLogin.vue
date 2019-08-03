@@ -13,11 +13,18 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary"
-                           style="width:100%;"
+                           style="width:45%;"
                            :loading="loading"
                            v-on:keyup.enter="handleLogin"
                            @click.native.prevent="handleLogin">
                     Login
+                </el-button>
+                <el-button type="success"
+                           style="width:45%;float: right"
+                           :loading="loading"
+                           v-on:keyup.enter="doGithubLogin"
+                           @click.native.prevent="doGithubLogin">
+                    Github账号登录
                 </el-button>
             </el-form-item>
         </el-form>
@@ -29,12 +36,23 @@
     export default {
         data() {
             return {
+                githubCallbackUrl:"",
+                githubClientId:"",
                 loading: false,
                 ruleForm: {
                     username: 'admin',
                     password: 'admin'
                 }
             };
+        },
+        mounted() {
+            this.$http.get("api/meta").then(res => {
+                if (res) {
+                    this.githubClientId = res.data.github_client_id;
+                    this.githubCallbackUrl = res.data.github_callback_url;
+                    localStorage.setItem("meta", JSON.stringify(res.data));
+                }
+            })
         },
         methods: {
             handleLogin() {
@@ -49,6 +67,9 @@
                     }
                     this.loading = false;
                 })
+            },
+            doGithubLogin(){
+                window.location.href = `https://github.com/login/oauth/authorize?client_id=${this.githubClientId}&redirect_uri=${this.githubCallbackUrl}&scope=user:email&state=${new Date().getTime()}&allow_signup=true`
             }
         }
     }
