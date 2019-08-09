@@ -8,7 +8,7 @@
             <el-col :span="20"></el-col>
         </el-row>
         <el-table :data="tableData" border style="width: 100%" stripe>
-            <el-table-column fixed prop="ID" label="ID" width="50">
+            <el-table-column fixed prop="ID" label="id" width="50">
             </el-table-column>
             <el-table-column prop="name" label="Name" width="80">
             </el-table-column>
@@ -233,7 +233,7 @@ curl -X POST \\
             doFormSubmit() {
                 let method = 'post';
                 const url = 'api/wslog/hook';
-                if (this.form.ID > 0) {
+                if (this.form.id > 0) {
                     method = "patch";
                 } else {
                     method = "post"

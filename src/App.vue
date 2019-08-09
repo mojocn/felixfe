@@ -12,6 +12,13 @@
 </script>
 
 <style>
+    .fortress-cell {
+        padding: 4px 8px !important;
+    }
+
+    .el-button--mini {
+        padding: 4px 8px !important;
+    }
     body {
         margin: 0;
         -moz-osx-font-smoothing: grayscale;
@@ -102,13 +109,11 @@
     }
 
     .toolbar {
-        margin: 0px auto 25px auto;
+        margin: 0px auto 1rem auto;
     }
 
     .toolbar .el-button {
-        font-size: 20px;
-        padding: 8px 15px
-
+        padding: 8px 8px
     }
 
     .el-tree-node__content:hover, .el-tree-node:focus > .el-tree-node__content {
@@ -134,5 +139,42 @@
         background: black;
         color: #f5f7fa;
         overflow: auto;
+    }
+
+    #nprogress .bar {
+        background: #ff5722 !important;
+    }
+
+    /* Remove these to get rid of the spinner */
+    #nprogress .spinner {
+        top: 9px !important;
+        right: 21px !important;
+    }
+
+    #nprogress .spinner-icon {
+        width: 41px !important;
+        height: 41px !important;
+        border-top-color: #ff5722 !important;
+        border-left-color: #ff5722 !important;
+    }
+
+    .el-table td {
+        text-align: center !important;
+    }
+
+    .el-table th {
+        text-align: center !important;
+    }
+
+    .table-search-input {
+        width: 12rem !important;
+        margin-right: 1rem;
+    }
+
+    .search-bar {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 </style>

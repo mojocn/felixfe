@@ -44,22 +44,22 @@
     let canvas_ctx, image;
     let framebuffer_u8, framebuffer_u32;
 
-    let AUDIO_BUFFERING = 512;
-    let SAMPLE_COUNT = 4 * 1024;
-    let SAMPLE_MASK = SAMPLE_COUNT - 1;
-    let audio_samples_L = new Float32Array(SAMPLE_COUNT);
-    let audio_samples_R = new Float32Array(SAMPLE_COUNT);
-    let audio_write_cursor = 0, audio_read_cursor = 0;
+    // let AUDIO_BUFFERING = 512;
+    //let SAMPLE_COUNT = 4 * 1024;
+    //let SAMPLE_MASK = SAMPLE_COUNT - 1;
+    // let audio_samples_L = new Float32Array(SAMPLE_COUNT);
+    // let audio_samples_R = new Float32Array(SAMPLE_COUNT);
+    // let audio_write_cursor = 0, audio_read_cursor = 0;
 
     let nes = new jsnes.NES({
         onFrame: function (framebuffer_24) {
             for (let i = 0; i < FRAMEBUFFER_SIZE; i++) framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
         },
-        onAudioSample: function (l, r) {
-            audio_samples_L[audio_write_cursor] = l;
-            audio_samples_R[audio_write_cursor] = r;
-            audio_write_cursor = (audio_write_cursor + 1) & SAMPLE_MASK;
-        },
+        // onAudioSample: function (l, r) {
+        //     audio_samples_L[audio_write_cursor] = l;
+        //     audio_samples_R[audio_write_cursor] = r;
+        //     audio_write_cursor = (audio_write_cursor + 1) & SAMPLE_MASK;
+        // },
     });
 
     function onAnimationFrame() {
@@ -69,27 +69,11 @@
         nes.frame();
     }
 
-    function audio_remain() {
-        return (audio_write_cursor - audio_read_cursor) & SAMPLE_MASK;
-    }
+    // function audio_remain() {
+    //     return (audio_write_cursor - audio_read_cursor) & SAMPLE_MASK;
+    // }
 
-    function audio_callback(event) {
-        let dst = event.outputBuffer;
-        let len = dst.length;
 
-        // Attempt to avoid buffer underruns.
-        if (audio_remain() < AUDIO_BUFFERING) nes.frame();
-
-        let dst_l = dst.getChannelData(0);
-        let dst_r = dst.getChannelData(1);
-        for (let i = 0; i < len; i++) {
-            let src_idx = (audio_read_cursor + i) & SAMPLE_MASK;
-            dst_l[i] = audio_samples_L[src_idx];
-            dst_r[i] = audio_samples_R[src_idx];
-        }
-
-        audio_read_cursor = (audio_read_cursor + len) & SAMPLE_MASK;
-    }
 
     function keyboard(callback, event) {
         let player = 1;
@@ -125,26 +109,6 @@
         }
     }
 
-    // function nes_init(canvas_id) {
-    //     let canvas = document.getElementById(canvas_id);
-    //     canvas_ctx = canvas.getContext("2d");
-    //     image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    //
-    //     canvas_ctx.fillStyle = "black";
-    //     canvas_ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    //
-    //     // Allocate framebuffer array.
-    //     let buffer = new ArrayBuffer(image.data.length);
-    //     framebuffer_u8 = new Uint8ClampedArray(buffer);
-    //     framebuffer_u32 = new Uint32Array(buffer);
-    //
-    //     // Setup audio.
-    //     let audio_ctx = new window.AudioContext();
-    //     let script_processor = audio_ctx.createScriptProcessor(AUDIO_BUFFERING, 0, 2);
-    //     script_processor.onaudioprocess = audio_callback;
-    //
-    //     script_processor.connect(audio_ctx.destination);
-    // }
 
     function nes_boot(rom_data) {
         nes.loadROM(rom_data);

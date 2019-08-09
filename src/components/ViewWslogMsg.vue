@@ -4,9 +4,9 @@
         <el-table :data="tableData"
                   :default-sort="{prop: 'created_at', order: 'descending'}"
                   border style="width: 100%" stripe>
-            <el-table-column label="CreatedAt" width="170">
+            <el-table-column label="created_at" width="170">
                 <template slot-scope="scope">
-                    {{humanTime(scope.row.CreatedAt)}}
+                    {{humanTime(scope.row.created_at)}}
                 </template>
             </el-table-column>
             <el-table-column label="TYPE" width="170">

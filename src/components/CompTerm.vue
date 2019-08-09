@@ -1,6 +1,6 @@
 <template>
     <el-dialog :visible.sync="v"
-               :title="obj.user + '@' + obj.host"
+               :title="termTitle"
                @opened="doOpened"
                @open="doOpen"
                @close="doClose"
@@ -29,7 +29,7 @@
                 JSON.stringify({
                     type: "resize",
                     rows: size.rows,
-                    cols: size.cols
+                    cols: size.cols,
                 })
             );
         };
@@ -41,7 +41,7 @@
         });
     };
     let bindTerminal = (term, websocket, bidirectional, bufferedTime) => {
-        term.write('\r\nwelcome to https://github.com/dejavuzhou/felix\n\r\n');
+        term.write('\r\n欢迎来到360云平台Fortress堡垒机\n\r\n');
         term.socket = websocket;
         let messageBuffer = null;
         let handleWebSocketMessage = function (ev) {
@@ -104,9 +104,15 @@
             }
         },
         computed: {
+            termTitle() {
+                if (this.obj && this.obj.cluster_ssh) {
+                    return `${this.obj.cluster_ssh.ssh_user || ''}@${this.obj.ssh_ip}:${this.obj.ssh_port}`
+                }
+                return ""
+            },
             wsUrl() {
                 let token = localStorage.getItem('token');
-                return `${config.wsBase}/api/ws/ssh/${this.obj.ID || 0}?cols=${this.term.cols}&rows=${this.term.rows}&_t=${token}`
+                return `${config.wsBase}/ws/ssh/${this.obj.id || 0}?cols=${this.term.cols}&rows=${this.term.rows}&_t=${token}`
             }
         },
 
@@ -130,7 +136,7 @@
                 if (this.term) {
                     this.term.dispose()
                 }
-                this.$emit('pclose', false)//子组件对openStatus修改后向父组件发送事件通知
+                this.$emit('afterClose')//子组件对openStatus修改后向父组件发送事件通知
             },
             doOpen() {
 
@@ -139,6 +145,7 @@
                 Terminal.applyAddon(fit);
                 Terminal.applyAddon(webLinks);
                 Terminal.applyAddon(search);
+                //TODO 网页终端添加搜索功能
                 this.term = new Terminal({
                     //rows: 20,
                     fontSize: 18,

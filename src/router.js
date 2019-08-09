@@ -46,13 +46,13 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewSsh")
                 },
                 {
-                    path: "term-log",
-                    name: "termLog",
+                    path: "ssh-log",
+                    name: "sshLog",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'termLog', title: 'SshReplay'}],
-                        title: "SshReplay"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'sshLog', title: 'sshLog'}],
+                        title: "sshLog"
                     },
-                    component: () => import("@/components/ViewTermLog")
+                    component: () => import("@/components/ViewSshLog")
                 },
                 {
                     path: "user",

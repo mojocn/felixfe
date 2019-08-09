@@ -7,7 +7,7 @@
             <el-col :span="20"></el-col>
         </el-row>
         <el-table :data="tableData" border style="width: 100%" stripe>
-            <el-table-column fixed prop="ID" label="ID" width="50">
+            <el-table-column fixed prop="ID" label="id" width="50">
             </el-table-column>
             <el-table-column label="Avatar" width="80">
                 <template slot-scope="scope">
@@ -21,14 +21,14 @@
             <el-table-column prop="mobile" label="Mobile" width="180">
             </el-table-column>
 
-            <el-table-column label="CreatedAt" width="180">
+            <el-table-column label="created_at" width="180">
                 <template slot-scope="scope">
-                    {{scope.row.CreatedAt.substr(0,19)}}
+                    {{scope.row.created_at.substr(2,19)}}
                 </template>
             </el-table-column>
-            <el-table-column label="UpdatedAt" width="180">
+            <el-table-column label="updated_at" width="180">
                 <template slot-scope="scope">
-                    {{scope.row.UpdatedAt.substr(0,19)}}
+                    {{scope.row.updated_at.substr(2,19)}}
                 </template>
             </el-table-column>
 
@@ -38,7 +38,7 @@
                         <el-button
                                 title="view ssh machine information"
                                 @click="doUpdate(scope.row)"
-                                :disabled="scope.row.ID == 1"
+                                :disabled="scope.row.id == 1"
                                 type="success"
                                 size="small"
                                 icon="el-icon-edit"
@@ -46,7 +46,7 @@
                         <el-button
                                 title="delete ssh connection"
                                 @click="doDelete(scope.row)"
-                                :disabled="scope.row.ID == 1"
+                                :disabled="scope.row.id == 1"
                                 type="danger"
                                 size="small"
                                 icon="el-icon-delete-solid"
@@ -162,7 +162,7 @@
             handleFormSubmit() {
                 let method = 'post';
                 let url = 'api/user';
-                if (this.form.ID > 0) {
+                if (this.form.id > 0) {
                     method = "patch";
                 } else {
                     method = "post"

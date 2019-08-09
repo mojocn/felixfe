@@ -2,14 +2,6 @@ import axios from 'axios';
 import {Message, MessageBox} from 'element-ui';
 import vueRouter from "../router";
 
-// function getBaseUrl() {
-//     let baseUrl = process.env.BASE_API
-//     const hostName = window.location.hostname
-//     if (hostName !== 'localhost') {
-//         baseUrl = 'http://' + hostName
-//     }
-//     return baseUrl
-// }
 
 // 创建axios实例
 const service = axios.create({
@@ -37,8 +29,6 @@ service.interceptors.request.use(config => {
         return Promise.reject({code: 1, msg: "felix has no token jump to login page", title: "No Token"})
     }
     config.headers['Authorization'] = 'Bearer ' + token; // 让每个请求携带自定义token 请根据实际情况自行修改
-
-
     return config;
 }, error => {
     // 对请求错误做些什么

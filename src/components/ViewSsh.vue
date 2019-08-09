@@ -11,7 +11,7 @@
             <el-col :span="20"></el-col>
         </el-row>
         <el-table :data="tableData" border style="width: 100%" stripe>
-            <el-table-column fixed prop="ID" label="ID" width="50">
+            <el-table-column fixed prop="ID" label="id" width="50">
             </el-table-column>
             <el-table-column prop="name" label="Name">
             </el-table-column>
@@ -23,9 +23,9 @@
             </el-table-column>
             <el-table-column prop="type" label="Type" width="120">
             </el-table-column>
-            <el-table-column label="UpdatedAt" width="170">
+            <el-table-column label="updated_at" width="170">
                 <template slot-scope="scope">
-                    {{scope.row.UpdatedAt.substr(0,19)}}
+                    {{scope.row.updated_at.substr(2,19)}}
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="Action" width="280" align="center">
@@ -198,7 +198,7 @@
             handleFormSubmit() {
                 let method = 'post';
                 let url = 'api/ssh';
-                if (this.form.ID > 0) {
+                if (this.form.id > 0) {
                     method = "patch";
                 } else {
                     method = "post"

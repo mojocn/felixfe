@@ -15,7 +15,7 @@
                     <el-menu-item-group>
                         <template slot="title">Ssh & Sftp helper</template>
                         <el-menu-item index="/ssh">Ssh/Sftp</el-menu-item>
-                        <el-menu-item index="/term-log" v-text="$t('sshAudit')"></el-menu-item>
+                        <el-menu-item index="/ssh-log" v-text="$t('sshAudit')"></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
@@ -30,7 +30,7 @@
                 <el-submenu index="5">
                     <template slot="title"><i class="el-icon-message"></i>{{$t('wslog')}}</template>
                     <el-menu-item-group>
-                        <template slot="title">{{$t('wslogWs')}}</template>
+                        <template slot="title">{{$t('wslogMsg')}}</template>
                         <el-menu-item index="/wslog/hook">{{$t('wslogHook')}}</el-menu-item>
                         <el-menu-item index="/wslog-msg">{{$t('wslogMsg')}}</el-menu-item>
                     </el-menu-item-group>
@@ -154,7 +154,7 @@
         methods: {
             startWebsocketConn() {
                 let token = localStorage.getItem('token');
-                let wsURL = `${config.wsBase}/api/ws/hook?&_t=${token}`;
+                let wsURL = `${config.wsBase}/ws/hook?&_t=${token}`;
                 let ws = new WebSocket(wsURL);
                 ws.onmessage = ev => {
                     let obj = JSON.parse(ev.data);
