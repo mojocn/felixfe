@@ -6,6 +6,6 @@ config.apiBase = `${window.location.protocol}//:${window.location.host}`;
 
 if (window.location.host.includes('localhost') || window.location.host.includes('127.0.0.1')) {
     //to fix nginx web socket upgrade error
-    config.wsBase = "wss://felix.mojotv.cn"
+    config.wsBase = "ws://127.0.0.1:2222"
 }
 export default config;

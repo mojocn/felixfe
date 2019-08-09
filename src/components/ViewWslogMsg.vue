@@ -78,7 +78,7 @@
 <script>
 
     export default {
-        name: "ViewWslogMsgHi",
+        name: "ViewWslogMsg",
         data() {
             return {
                 page: 1,

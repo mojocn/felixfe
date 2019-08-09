@@ -73,31 +73,13 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewGinbro")
                 },
                 {
-                    path: "wslog-msg-rt",
-                    name: "wslogMsgRt",
-                    meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgRt', title: 'ViewWslogMsgRt'}],
-                        title: "wslog msg real time"
-                    },
-                    component: () => import("@/components/ViewWslogMsgRt")
-                },
-                {
-                    path: "wslog-msg-hi",
-                    name: "wslogMsgHi",
+                    path: "wslog-msg",
+                    name: "wslogMsg",
                     meta: {
                         breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgHi', title: 'ViewWslogMsgHi'}],
                         title: "wslog msg history"
                     },
-                    component: () => import("@/components/ViewWslogMsgHi")
-                },
-                {
-                    path: "wslog/channel",
-                    name: "wslogChannel",
-                    meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'slog', title: 'slog'}],
-                        title: "wslog channel"
-                    },
-                    component: () => import("@/components/ViewWslogChannel")
+                    component: () => import("@/components/ViewWslogMsg")
                 },
                 {
                     path: "wslog/hook",
@@ -113,12 +95,10 @@ const vueRouter = new Router({
     ]
 });
 
-
-
 vueRouter.beforeEach((to, from, next) => {
-    window.location.pa
+    window.location.pa;
     next()
-})
+});
 
 
 

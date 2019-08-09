@@ -31,10 +31,8 @@
                     <template slot="title"><i class="el-icon-message"></i>{{$t('wslog')}}</template>
                     <el-menu-item-group>
                         <template slot="title">{{$t('wslogWs')}}</template>
-                        <el-menu-item index="/wslog/channel">{{$t('wslogChannel')}}</el-menu-item>
                         <el-menu-item index="/wslog/hook">{{$t('wslogHook')}}</el-menu-item>
-                        <el-menu-item index="/wslog-msg-rt">{{$t('wslogMsgRt')}}</el-menu-item>
-                        <el-menu-item index="/wslog-msg-hi">{{$t('wslogMsgHi')}}</el-menu-item>
+                        <el-menu-item index="/wslog-msg">{{$t('wslogMsg')}}</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -57,10 +55,10 @@
                         > </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>
-                                <el-link @click="changeLang('cn')" type="success">中文</el-link>
+                                <el-link @click="changeLang('zh-CN')" type="success">中文</el-link>
                             </el-dropdown-item>
                             <el-dropdown-item>
-                                <el-link @click="changeLang('us')" type="danger">English</el-link>
+                                <el-link @click="changeLang('en-US')" type="danger">English</el-link>
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -112,7 +110,7 @@
 </template>
 
 <script>
-    import config from "@/config/config"
+    import config from "@/libs/config"
 
     export default {
         name: "Main",

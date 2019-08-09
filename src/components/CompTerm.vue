@@ -21,30 +21,8 @@
     import * as webLinks from "xterm/lib/addons/webLinks/webLinks";
     import * as search from "xterm/lib/addons/search/search";
     import "xterm/dist/xterm.css"
-    import config from "@/config/config"
+    import config from "@/libs/config"
 
-    let defaultTheme = {
-        foreground: "#ffffff",
-        background: "#1b212f",
-        cursor: "#ffffff",
-        selection: "rgba(255, 255, 255, 0.3)",
-        black: "#000000",
-        brightBlack: "#808080",
-        red: "#ce2f2b",
-        brightRed: "#f44a47",
-        green: "#00b976",
-        brightGreen: "#05d289",
-        yellow: "#e0d500",
-        brightYellow: "#f4f628",
-        magenta: "#bd37bc",
-        brightMagenta: "#d86cd8",
-        blue: "#1d6fca",
-        brightBlue: "#358bed",
-        cyan: "#00a8cf",
-        brightCyan: "#19b8dd",
-        white: "#e5e5e5",
-        brightWhite: "#ffffff"
-    };
     let bindTerminalResize = (term, websocket) => {
         let onTermResize = size => {
             websocket.send(
@@ -167,7 +145,6 @@
                     cursorBlink: true,
                     cursorStyle: 'bar',
                     bellStyle: "sound",
-                    theme: defaultTheme
                 });
                 this.term.open(this.$refs.terminal);
                 this.term.fit(); // first resizing

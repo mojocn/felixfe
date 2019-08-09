@@ -64,16 +64,6 @@
                 <el-form-item label="Name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="Channel">
-                    <el-select v-model="form.channel_id" placeholder="请选择">
-                        <el-option
-                                v-for="item in allChannel"
-                                :key="item.ID"
-                                :label="item.name"
-                                :value="item.ID">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
 
                 <el-form-item label="Hook Expire At">
                     <el-date-picker
@@ -115,7 +105,6 @@
         name: "ViewWslogHook",
         data() {
             return {
-                allChannel: [],
                 hookURL: "",
                 hookCode: "",
                 hookDv: false,
@@ -125,7 +114,6 @@
                 tableData: [],
                 dialogFormVisible: false,
                 form: {
-                    channel_id: null,
                     name: "",
                     expire_at: null,
                 },
@@ -134,7 +122,6 @@
 
         mounted() {
             this.fetchList();
-            this.fetchAllChannels()
         },
         beforeDestroy() {
         },
@@ -142,17 +129,6 @@
 
         },
         methods: {
-            fetchAllChannels() {
-                let page = 1;
-                let size = 99999;
-                this.$http
-                    .get("api/wslog/channel", {params: {page, size}})
-                    .then(res => {
-                        if (res) {
-                            this.allChannel = res.data
-                        }
-                    })
-            },
             doHelp(row) {
                 this.hookURL = `${window.location.protocol}//${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
                 this.hookCode = `
