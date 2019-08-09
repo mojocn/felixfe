@@ -214,7 +214,7 @@
             },
             handleClickView(row) {
                 this.info = row;
-                this.$http.get(`api/ssh/${row.ID}`).then(res => {
+                this.$http.get(`api/ssh/${row.id}`).then(res => {
                     if (res) {
                         this.info = res.data;
 
@@ -227,7 +227,7 @@
                 this.dialogFormVisible = true
             },
             doDelete(row) {
-                this.$http.delete(`api/ssh/${row.ID}`).then(res => {
+                this.$http.delete(`api/ssh/${row.id}`).then(res => {
                     if (res) {
                         this.fetchAllUser();
                         this.$message.success(res.msg)

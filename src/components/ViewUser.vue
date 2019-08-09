@@ -177,7 +177,7 @@
                 })
             },
             doDelete(row) {
-                this.$http.delete(`api/user/${row.ID}`).then(res => {
+                this.$http.delete(`api/user/${row.id}`).then(res => {
                     if (res) {
                         this.fetchAllUser();
                         this.$message.success(res.msg)

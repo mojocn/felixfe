@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <el-table :data="tableData"
+        <el-table :data="$store.state.msgs"
                   :default-sort="{prop: 'created_at', order: 'descending'}"
                   border style="width: 100%" stripe>
             <el-table-column label="created_at" width="170">
@@ -98,7 +98,7 @@
         },
         methods: {
             doDelete(row) {
-                this.$http.delete(`api/wslog/msg/${row.ID}`).then(res => {
+                this.$http.delete(`api/wslog/msg/${row.id}`).then(res => {
                     if (res) {
                         this.fetchList()
                     }
@@ -118,7 +118,8 @@
                             this.total = res.total;
                             this.size = res.size;
                             this.page = res.page;
-                            this.tableData = res.data
+                            //this.tableData = res.data
+                            this.$store.commit('setMsgs', res.data)
                         }
                     })
             },

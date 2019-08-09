@@ -214,7 +214,7 @@ curl -X POST \\
                 this.dialogFormVisible = true
             },
             doDelete(row) {
-                this.$http.delete(`api/wslog/hook/${row.ID}`).then(res => {
+                this.$http.delete(`api/wslog/hook/${row.id}`).then(res => {
                     if (res) {
                         this.fetchList();
                         this.$message.success(res.msg)

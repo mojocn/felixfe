@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import ViewComment from "@/components/ViewComment"
 
 Vue.use(Router);
 
@@ -89,7 +90,15 @@ const vueRouter = new Router({
                         title: "wslog hook"
                     },
                     component: () => import("@/components/ViewWslogHook")
-                }
+                },
+                {
+                    path: "comment",
+                    name: "comment",
+                    meta: {
+                        breads: ['main', 'comment'],
+                    },
+                    component: ViewComment
+                },
             ]
         }
     ]

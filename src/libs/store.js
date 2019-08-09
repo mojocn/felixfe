@@ -4,6 +4,7 @@ import Vue from 'vue';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    msgs: [],
     state: {
         idWidth: 120,
         user: JSON.parse(localStorage.getItem('user')) || {}
@@ -12,6 +13,12 @@ export default new Vuex.Store({
         setUser(state, obj) {
             state.user = obj;
             localStorage.setItem('user', JSON.stringify(obj));
+        },
+        setMsgs(state, msgs) {
+            state.msgs = msgs
+        },
+        prependMsgs(state, msg) {
+            state.msgs = state.msgs.unshift(msg)
         }
     },
     getters: {

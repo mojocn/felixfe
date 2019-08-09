@@ -241,7 +241,7 @@
                 } else {
                     let path = node.data.path;
                     this.$http
-                        .get(`api/sftp/${this.ID}`, {params: {path}})
+                        .get(`api/sftp/${this.id}`, {params: {path}})
                         .then(res => {
                             if (res) {
                                 resolve(res.data)
@@ -251,7 +251,7 @@
             },
             handleSftpCat(data) {
                 let path = data.path;
-                this.$http.get(`api/sftp/${this.ID}/cat`, {params: {path}}).then(res => {
+                this.$http.get(`api/sftp/${this.id}/cat`, {params: {path}}).then(res => {
                     if (res) {
                         this.catData = res.data;
                     }
@@ -268,7 +268,7 @@
             },
             handleDelete(data) {
                 let path = data.path;
-                this.$http.get(`api/sftp/${this.ID}/rm`, {params: {path}}).then(res => {
+                this.$http.get(`api/sftp/${this.id}/rm`, {params: {path}}).then(res => {
                     if (res) {
                         this.$message.success(path + " has been deleted!")
                     }
@@ -282,7 +282,7 @@
                     inputPlaceholder: data.path
                 }).then(({value}) => {
                     let path = `${data.path}/${value}`;
-                    this.$http.get(`api/sftp/${this.ID}/mkdir`, {params: {path}}).then(res => {
+                    this.$http.get(`api/sftp/${this.id}/mkdir`, {params: {path}}).then(res => {
                         if (res) {
                             this.$message.success(path + " has been made!")
                         }
@@ -302,7 +302,7 @@
                 }).then(({value}) => {
                     let opath = data.path;
                     let npath = value;
-                    this.$http.get(`api/sftp/${this.ID}/rename`, {params: {opath, npath}}).then(res => {
+                    this.$http.get(`api/sftp/${this.id}/rename`, {params: {opath, npath}}).then(res => {
                         if (res) {
                             this.$message.success(opath + " has been rename to " + npath)
                         }
@@ -316,11 +316,11 @@
 
             },
             handleDownload(data) {
-                window.open(`api/sftp/${this.ID}/dl?path=${data.path}`, '_blank');
+                window.open(`api/sftp/${this.id}/dl?path=${data.path}`, '_blank');
             },
             handleUploadDialog(data) {
                 this.uploadDialogVisible = true;
-                this.uploadUrl = `api/sftp/${this.ID}/up?path=${data.path}`
+                this.uploadUrl = `api/sftp/${this.id}/up?path=${data.path}`
             }
 
         }

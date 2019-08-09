@@ -7,6 +7,7 @@
                     <el-menu-item-group>
                         <template slot="title">{{$t('userManage')}}</template>
                         <el-menu-item index="/user">{{$t('user')}}</el-menu-item>
+                        <el-menu-item index="/comment">{{$t('comment')}}</el-menu-item>
                     </el-menu-item-group>
 
                 </el-submenu>
@@ -15,7 +16,7 @@
                     <el-menu-item-group>
                         <template slot="title">Ssh & Sftp helper</template>
                         <el-menu-item index="/ssh">Ssh/Sftp</el-menu-item>
-                        <el-menu-item index="/ssh-log" v-text="$t('sshAudit')"></el-menu-item>
+                        <el-menu-item index="/ssh-log" v-text="$t('sshLog')"></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
 
@@ -51,14 +52,13 @@
                     <!--change lange-->
                     <el-dropdown>
 
-                        <span v-text="lang" style="margin-right: 2rem;"
-                        > </span>
+                        <span v-text="langText" style="margin-right: 2rem;"> </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>
-                                <el-link @click="changeLang('zh-CN')" type="success">中文</el-link>
+                                <el-link @click="setLang('zh-CN')" type="success">中文</el-link>
                             </el-dropdown-item>
                             <el-dropdown-item>
-                                <el-link @click="changeLang('en-US')" type="danger">English</el-link>
+                                <el-link @click="setLang('en-US')" type="danger">English</el-link>
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -117,14 +117,17 @@
         data() {
             return {
                 ws: null,
-                msgs: [],
                 lang: "English",
             }
         },
         computed: {
-
-            clang() {
-                return this.$i18n.locale;
+            langText() {
+                let lang = localStorage.getItem("language");
+                if (lang.startsWith("zh-")) {
+                    return "中文"
+                } else {
+                    return "English"
+                }
             },
             user() {
                 let js = localStorage.getItem("user");
@@ -158,7 +161,7 @@
                 let ws = new WebSocket(wsURL);
                 ws.onmessage = ev => {
                     let obj = JSON.parse(ev.data);
-                    this.msgs.unshift(obj);
+                    this.$store.commit('prependMsg', obj);
                     this.$notify({
                         duration: 10000,
                         title: 'received a msg from hook',
@@ -176,13 +179,9 @@
                 };
                 this.ws = ws
             },
-            changeLang(lang) {
+            setLang(lang) {
+                localStorage.setItem("language", lang);
                 this.$i18n.locale = lang;
-                if (lang === 'cn') {
-                    this.lang = '中文'
-                } else if (lang === 'us') {
-                    this.lang = 'English'
-                }
             },
             doLogout() {
                 localStorage.removeItem("token");
