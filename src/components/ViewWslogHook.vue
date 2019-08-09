@@ -154,7 +154,7 @@
                     })
             },
             doHelp(row) {
-                this.hookURL = `http://${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
+                this.hookURL = `${window.location.protocol}//${window.location.host}/api/wslog/hook-api?_t=${row.token}`;
                 this.hookCode = `
 curl -X POST \\
   '${this.hookURL}' \\

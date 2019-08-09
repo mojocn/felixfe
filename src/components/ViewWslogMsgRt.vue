@@ -85,36 +85,14 @@
             }
         },
         mounted() {
-            let ws = new WebSocket(this.wsUrl);
-            ws.onmessage = ev => {
-                let obj = JSON.parse(ev.data);
-                this.msgs.unshift(obj);
-                this.$notify({
-                    title: 'received a msg from hook',
-                    message: obj.slack_msg.attachments[0].fallback,
-                    type: "success"
-                });
-            };
-            ws.onclose = ce => {
-                if (ce.code !== 1005) {
-                    this.$notify.error({
-                        title: `code ${ce.code}`,
-                        message: ce.reason,
-                    });
-                }
-            };
-            this.ws = ws
+
         },
         beforeDestroy() {
-            this.ws.close()
         },
         created() {
 
         },
         methods: {
-            fetchAll() {
-
-            },
             doDelete(row) {
                 this.msgs = this.msgs.filter(ele => ele.ID != row.ID);
                 this.$http.delete(`api/wslog/msg/${row.ID}`)

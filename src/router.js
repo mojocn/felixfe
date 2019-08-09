@@ -73,15 +73,6 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewGinbro")
                 },
                 {
-                    path: "nes",
-                    name: "nes",
-                    meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'nes', title: 'Nes'}],
-                        title: "NES"
-                    },
-                    component: () => import("@/components/ViewNes")
-                },
-                {
                     path: "wslog-msg-rt",
                     name: "wslogMsgRt",
                     meta: {

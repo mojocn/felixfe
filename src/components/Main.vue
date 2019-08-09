@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="200">
-            <el-menu :default-openeds="['1','2','3','4','5']" router>
+            <el-menu :default-openeds="['1','2','3','5']" router>
                 <el-submenu index="1">
                     <template slot="title"><i class="el-icon-user"></i>{{$t('user')}}</template>
                     <el-menu-item-group>
@@ -26,13 +26,7 @@
                         <el-menu-item index="/ginbro" v-text="$t('ginbroGen')"></el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-                <el-submenu index="4">
-                    <template slot="title"><i class="el-icon-s-goods"></i>{{$t('game')}}</template>
-                    <el-menu-item-group>
-                        <template slot="title">{{$t('gameNes')}}</template>
-                        <el-menu-item index="/nes">{{$t('gameNes')}}</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
+
                 <el-submenu index="5">
                     <template slot="title"><i class="el-icon-message"></i>{{$t('wslog')}}</template>
                     <el-menu-item-group>
@@ -118,14 +112,19 @@
 </template>
 
 <script>
+    import config from "@/config/config"
+
     export default {
         name: "Main",
         data() {
             return {
+                ws: null,
+                msgs: [],
                 lang: "English",
             }
         },
         computed: {
+
             clang() {
                 return this.$i18n.locale;
             },
@@ -143,7 +142,42 @@
         beforeUpdate() {
             window.document.title = this.$route.meta.title || "Felix"
         },
+        mounted() {
+            this.startWebsocketConn();
+            if (this.$route.path === '/') {
+                this.$router.push({name: 'ssh'})
+            }
+        },
+        beforeDestroy() {
+            if (this.ws) {
+                this.ws.close()
+            }
+        },
         methods: {
+            startWebsocketConn() {
+                let token = localStorage.getItem('token');
+                let wsURL = `${config.wsBase}/api/ws/hook?&_t=${token}`;
+                let ws = new WebSocket(wsURL);
+                ws.onmessage = ev => {
+                    let obj = JSON.parse(ev.data);
+                    this.msgs.unshift(obj);
+                    this.$notify({
+                        duration: 10000,
+                        title: 'received a msg from hook',
+                        message: obj.slack_msg.attachments[0].fallback,
+                        type: "success"
+                    });
+                };
+                ws.onclose = ce => {
+                    if (ce.code !== 1005) {
+                        this.$notify.error({
+                            title: `code ${ce.code}`,
+                            message: ce.reason,
+                        });
+                    }
+                };
+                this.ws = ws
+            },
             changeLang(lang) {
                 this.$i18n.locale = lang;
                 if (lang === 'cn') {
@@ -159,11 +193,6 @@
                 this.$router.push({name: "login"});
             }
         },
-        mounted() {
-            if (this.$route.path === '/') {
-                this.$router.push({name: 'ssh'})
-            }
-        }
     }
 </script>
 
