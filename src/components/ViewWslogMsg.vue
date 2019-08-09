@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <el-table :data="$store.state.msgs"
+        <el-table :data="msgs"
                   :default-sort="{prop: 'created_at', order: 'descending'}"
                   border style="width: 100%" stripe>
             <el-table-column label="created_at" width="170">
@@ -84,12 +84,15 @@
                 page: 1,
                 size: 10,
                 total: 0,
-                tableData: [],
                 logDialogV: false,
                 logData: '',
             };
         },
-
+        computed: {
+            msgs() {
+                return this.$store.state.msgs;
+            },
+        },
         mounted() {
             this.fetchList()
         },
@@ -118,7 +121,6 @@
                             this.total = res.total;
                             this.size = res.size;
                             this.page = res.page;
-                            //this.tableData = res.data
                             this.$store.commit('setMsgs', res.data)
                         }
                     })

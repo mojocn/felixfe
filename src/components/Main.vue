@@ -161,7 +161,7 @@
                 let ws = new WebSocket(wsURL);
                 ws.onmessage = ev => {
                     let obj = JSON.parse(ev.data);
-                    this.$store.commit('prependMsg', obj);
+                    this.$store.commit('prependMsgs', obj);
                     this.$notify({
                         duration: 10000,
                         title: 'received a msg from hook',

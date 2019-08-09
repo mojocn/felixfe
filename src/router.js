@@ -77,8 +77,8 @@ const vueRouter = new Router({
                     path: "wslog-msg",
                     name: "wslogMsg",
                     meta: {
-                        breads: [{name: 'main', title: 'Home'}, {name: 'ViewWslogMsgHi', title: 'ViewWslogMsgHi'}],
-                        title: "wslog msg history"
+                        breads: [{name: 'main', title: 'Home'}, {name: 'wslogMsg', title: 'wslogMsg'}],
+                        title: "wslog msg"
                     },
                     component: () => import("@/components/ViewWslogMsg")
                 },
