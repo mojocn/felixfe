@@ -2,8 +2,6 @@
     <div>
         <el-row type="flex" justify="start" align="middle" class="toolbar">
             <el-button type="primary" size="small" @click="$router.go(-1)">{{$t('back')}}</el-button>
-
-            </el-button>
             <div class="search-bar">
                 <el-input v-model.trim="q.page_url"
                           @blur="fetchComment"

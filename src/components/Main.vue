@@ -123,6 +123,9 @@
         computed: {
             langText() {
                 let lang = localStorage.getItem("language");
+                if (!lang){
+                    return "English"
+                }
                 if (lang.startsWith("zh-")) {
                     return "中文"
                 } else {
@@ -157,6 +160,9 @@
         methods: {
             startWebsocketConn() {
                 let token = localStorage.getItem('token');
+                if (!token){
+                    return
+                }
                 let wsURL = `${config.wsBase}/ws/hook?&_t=${token}`;
                 let ws = new WebSocket(wsURL);
                 ws.onmessage = ev => {

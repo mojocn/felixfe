@@ -1,4 +1,4 @@
-export let i18nList = {
+export let messages = {
     cn: {
         name: '名字'
     },

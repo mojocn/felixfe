@@ -4,8 +4,8 @@ import Vue from 'vue';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    msgs: [],
     state: {
+        msgs: [],
         idWidth: 120,
         user: JSON.parse(localStorage.getItem('user')) || {}
     },
