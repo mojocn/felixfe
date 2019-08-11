@@ -11,7 +11,7 @@
             <el-col :span="20"></el-col>
         </el-row>
         <el-table :data="tableData" border style="width: 100%" stripe>
-            <el-table-column fixed prop="ID" label="id" width="50">
+            <el-table-column fixed prop="id" label="id" width="50">
             </el-table-column>
             <el-table-column prop="name" label="Name">
             </el-table-column>

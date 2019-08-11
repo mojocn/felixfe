@@ -188,14 +188,17 @@
                 }
                 //this.nesStart()
             },
+            kbu(event){
+                keyboard(nes.buttonUp, event)
+
+            },
+            kbd(event){
+                keyboard(nes.buttonDown, event)
+            },
             nesStart() {
                 //let canvas = document.getElementById(canvas_id);
-                document.addEventListener('keydown', (event) => {
-                    keyboard(nes.buttonDown, event)
-                });
-                document.addEventListener('keyup', (event) => {
-                    keyboard(nes.buttonUp, event)
-                });
+                document.addEventListener('keydown', this.kbd);
+                document.addEventListener('keyup', this.kbu);
                 let canvas = this.$refs.nes;
                 canvas_ctx = canvas.getContext("2d");
                 image = canvas_ctx.getImageData(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -236,8 +239,8 @@
                 req.send();
             },
             nesClose() {
-                document.removeEventListener("keydown");
-                document.removeEventListener("keyup");
+                document.removeEventListener("keydown",this.kbd);
+                document.removeEventListener("keyup",this.kbu);
                 this.script_processor.disconnect(this.audio_ctx.destination);
                 this.script_processor = null;
                 this.audio_ctx.close();
