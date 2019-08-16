@@ -188,12 +188,11 @@
                 }
                 //this.nesStart()
             },
-            kbu(event){
-                keyboard(nes.buttonUp, event)
-
-            },
-            kbd(event){
+            kbd(event) {
                 keyboard(nes.buttonDown, event)
+            },
+            kbu(event) {
+                keyboard(nes.buttonUp, event)
             },
             nesStart() {
                 //let canvas = document.getElementById(canvas_id);
@@ -239,11 +238,11 @@
                 req.send();
             },
             nesClose() {
-                document.removeEventListener("keydown",this.kbd);
-                document.removeEventListener("keyup",this.kbu);
-                this.script_processor.disconnect(this.audio_ctx.destination);
+                document.removeEventListener("keydown", this.kbd);
+                document.removeEventListener("keyup", this.kbu);
+                //this.script_processor.disconnect(this.audio_ctx.destination);
                 this.script_processor = null;
-                this.audio_ctx.close();
+                //this.audio_ctx.close();
                 this.audio_ctx = null
             },
 

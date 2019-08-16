@@ -1,8 +1,66 @@
-export let messages = {
-    cn: {
-        name: '名字'
+export const messages = {
+    "zh-CN": {
+        user: '用户',
+        btnAdd: '添加',
+        userManage: '用户管理',
+        game: "游戏",
+        gameNes: "红白机",
+        wslog: "日志收集",
+        wslogChannel: "日志频道",
+        wslogHook: '日志Hook',
+        wslogMsg: "日志消息",
+        sshLog: "ssh日志",
+        ginbroGen: "代码生成",
+        restCli: "REST CLI",
+
+        last1day: "最近1天",
+        last3day: "最近3天",
+        last7day: "最近天",
+        last1month: "最近1个月",
+        action: "操作",
+        delete: "删除",
+        view: "查看",
+        createdAt: "创建时间",
+        logLength: "日志行数",
+        ip: "IP",
+        duration: "持续时间",
+        startedAt: "开始时间",
+        comment: "评论",
+        pageUrlPhs: "搜索网页地址",
+        content: "内容",
+        pageUrl: "页面地址",
     },
-    us: {
-        name: 'Name'
+    "en-US": {
+        action: "Action",
+        back: "Back",
+        user: 'User',
+        btnAdd: "Create",
+        userManage: 'User',
+        wslog: "Slack Log",
+        wslogHook: 'Slack Hook',
+        wslogMsg: "Log Message",
+        sshLog: "SSH Log",
+        ginbroGen: "App Generate",
+        restCli: "REST CLI",
+        delete: "Remove",
+        view: "View",
+
+        last1day: "Last 1 day",
+        last3day: "Last 3 days",
+        last7day: "Last 7 days",
+        last1month: "Last 1 month",
+
+
+        createdAt: "Created At",
+        logLength: "Log Line",
+        ip: "IP",
+        duration: "Duration",
+        startedAt: "Started At",
+        comment: "Comment",
+        pageUrlPhs: "Search page url",
+        content: "Content",
+        pageUrl: "Page URL",
+
+
     }
 };

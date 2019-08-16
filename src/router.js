@@ -104,12 +104,5 @@ const vueRouter = new Router({
     ]
 });
 
-vueRouter.beforeEach((to, from, next) => {
-    window.location.pa;
-    next()
-});
-
-
-
 
 export default vueRouter;
