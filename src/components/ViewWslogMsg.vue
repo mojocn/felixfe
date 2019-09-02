@@ -2,7 +2,6 @@
     <div>
 
         <el-table :data="tableData"
-                  :default-sort="{prop: 'created_at', order: 'descending'}"
                   border style="width: 100%" stripe>
             <el-table-column label="created_at" width="170">
                 <template slot-scope="scope">
