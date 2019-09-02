@@ -69,7 +69,7 @@
         </el-pagination>
 
 
-        <!--<comp-ssh-log :obj="form" :visible="termVisible" @afterClose="termVisible = false"></comp-ssh-log>-->
+<!--        <comp-ssh-log :obj="form" :visible="termVisible" @afterClose="termVisible = false"></comp-ssh-log>-->
     </div>
 
 </template>

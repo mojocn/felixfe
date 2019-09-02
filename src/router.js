@@ -92,6 +92,15 @@ const vueRouter = new Router({
                     component: () => import("@/components/ViewWslogHook")
                 },
                 {
+                    path: "hacknews",
+                    name: "hacknews",
+                    meta: {
+                        breads: [{name: 'main', title: 'Home'}, {name: 'hacknews', title: 'hacknews'}],
+                        title: "hacknews"
+                    },
+                    component: () => import("@/components/ViewHacknews")
+                },
+                {
                     path: "comment",
                     name: "comment",
                     meta: {

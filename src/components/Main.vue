@@ -8,8 +8,8 @@
                         <template slot="title">{{$t('userManage')}}</template>
                         <el-menu-item index="/user">{{$t('user')}}</el-menu-item>
                         <el-menu-item index="/comment">{{$t('comment')}}</el-menu-item>
+                        <el-menu-item index="/hacknews" v-text="'Hacknews'"></el-menu-item>
                     </el-menu-item-group>
-
                 </el-submenu>
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-film"></i>Ssh</template>
@@ -17,6 +17,7 @@
                         <template slot="title">Ssh & Sftp helper</template>
                         <el-menu-item index="/ssh">Ssh/Sftp</el-menu-item>
                         <el-menu-item index="/ssh-log" v-text="$t('sshLog')"></el-menu-item>
+
                     </el-menu-item-group>
                 </el-submenu>
 

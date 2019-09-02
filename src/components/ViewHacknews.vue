@@ -3,33 +3,17 @@
 
         <el-table :data="tableData"
                   :default-sort="{prop: 'created_at', order: 'descending'}"
-                  border style="width: 100%" stripe>
+                  border stripe>
+            <el-table-column prop="id" label="ID" width="60"></el-table-column>
+
+            <el-table-column prop="title_en" label="TitleEn">
+            </el-table-column>
+            <el-table-column prop="title_zh" label="TitleZh">
+            </el-table-column>
+
             <el-table-column label="created_at" width="170">
                 <template slot-scope="scope">
                     {{humanTime(scope.row.created_at)}}
-                </template>
-            </el-table-column>
-            <el-table-column label="TYPE" width="170">
-                <template slot-scope="scope">
-                    <el-tag :type="scope.row.slack_msg.attachments[0].color">
-                        {{scope.row.slack_msg.attachments[0].color}}
-                    </el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column prop="slack_msg.channel" label="channel" width="80">
-            </el-table-column>
-            <el-table-column prop="slack_msg.icon_emoji" label="ICON" width="80">
-            </el-table-column>
-            <el-table-column prop="slack_msg.username" label="User" width="80">
-            </el-table-column>
-            <el-table-column label="detail">
-                <template slot-scope="scope">
-                    <h4 v-text="scope.row.slack_msg.attachments[0].fallback"></h4>
-                    <p v-for="(ff,idx) in scope.row.slack_msg.attachments[0].fields" :key="idx">
-                        <el-tag :type="scope.row.slack_msg.attachments[0].color" v-text="ff.title"></el-tag>
-                        =>
-                        <el-tag v-text="ff.value"></el-tag>
-                    </p>
                 </template>
             </el-table-column>
 
@@ -37,14 +21,22 @@
                 <template slot-scope="scope">
 
                     <el-button
-                            title="view ssh machine information"
+                            title="view"
                             @click="doView(scope.row)"
                             type="success"
                             size="small"
                             icon="el-icon-view"
                     ></el-button>
                     <el-button
-                            title="delete ssh connection"
+                            title="edit"
+                            @click="doEdit(scope.row)"
+                            type="primary"
+                            size="small"
+                            icon="el-icon-edit"
+                    ></el-button>
+
+                    <el-button
+                            title="delete"
                             @click="doDelete(scope.row)"
                             type="danger"
                             size="small"
@@ -78,7 +70,7 @@
 <script>
 
     export default {
-        name: "ViewWslogMsg",
+        name: "ViewHacknews",
         data() {
             return {
                 tableData:[],
@@ -98,7 +90,7 @@
         },
         methods: {
             doDelete(row) {
-                this.$http.delete(`api/wslog/msg/${row.id}`).then(res => {
+                this.$http.delete(`api/hacknews/${row.id}`).then(res => {
                     if (res) {
                         this.fetchList()
                     }
@@ -112,7 +104,7 @@
                 let page = this.page;
                 let size = this.size;
                 this.$http
-                    .get("api/wslog/msg", {params: {page, size}})
+                    .get("api/hacknews", {params: {page, size}})
                     .then(res => {
                         if (res) {
                             this.total = res.total;
@@ -130,6 +122,16 @@
                 this.page = 1;
                 this.size = val;
                 this.fetchList()
+            },
+            doEdit(row){
+                //todo::: vuejs dialog form
+                this.$http.patch('api/hacknews',row).then(res => {
+                    if (res) {
+                        this.$message.success("success");
+                        this.dialogFormVisible = false;
+                        this.fetchAllUser()
+                    }
+                })
             },
             humanTime: function (timeS) {
                 let date = new Date(timeS);
