@@ -24,21 +24,21 @@
                                 title="view ssh machine information"
                                 @click="doUpdate(scope.row)"
                                 type="success"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
                                 @click="doDelete(scope.row)"
                                 type="danger"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-delete-solid"
                         ></el-button>
                         <el-button
                                 title="how to use Hook"
                                 @click="doHelp(scope.row)"
                                 type="success"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-help"
                         ></el-button>
                     </el-button-group>

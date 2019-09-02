@@ -9,7 +9,8 @@
             </el-table-column>
             <el-table-column prop="title_zh" label="TitleZh">
             </el-table-column>
-
+            <el-table-column prop="cate" label="cate" width="80">
+            </el-table-column>
             <el-table-column label="created_at" width="170">
                 <template slot-scope="scope">
                     {{humanTime(scope.row.created_at)}}
@@ -23,14 +24,14 @@
                             title="view"
                             @click="doView(scope.row)"
                             type="success"
-                            size="small"
+                            size="mini"
                             icon="el-icon-view"
                     ></el-button>
                     <el-button
                             title="edit"
                             @click="doEdit(scope.row)"
                             type="primary"
-                            size="small"
+                            size="mini"
                             icon="el-icon-edit"
                     ></el-button>
 
@@ -38,7 +39,7 @@
                             title="delete"
                             @click="doDelete(scope.row)"
                             type="danger"
-                            size="small"
+                            size="mini"
                             icon="el-icon-delete-solid"
                     ></el-button>
 

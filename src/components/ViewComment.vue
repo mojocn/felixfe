@@ -1,18 +1,18 @@
 <template>
     <div>
         <el-row type="flex" justify="start" align="middle" class="toolbar">
-            <el-button type="primary" size="small" @click="$router.go(-1)">{{$t('back')}}</el-button>
+            <el-button type="primary" size="mini" @click="$router.go(-1)">{{$t('back')}}</el-button>
             <div class="search-bar">
                 <el-input v-model.trim="q.page_url"
                           @blur="fetchComment"
                           class="table-search-input"
                           prefix-icon="el-icon-search"
-                          size="small"
+                          size="mini"
                           :placeholder="$t('pageUrlPhs')"
                           clearable>
                 </el-input>
 
-                <el-button type="primary" size="small"
+                <el-button type="primary" size="mini"
                            icon="el-icon-search"
                            @click="fetchComment"
                            :title="$t('btnSearch')">

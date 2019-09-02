@@ -34,35 +34,35 @@
                                 title="open terminal"
                                 @click="handleClickConsole(scope.row)"
                                 type="primary"
-                                size="small"
+                                size="mini"
 
                         >ssh
                         </el-button>
                     <el-button
                             title="open a sftp app"
                             @click="handleClickSftp(scope.row)"
-                            size="small"
+                            size="mini"
                     >sftp
                     </el-button>
                         <el-button
                                 title="edit ssh connection configuration"
                                 @click="handleClickUpdate(scope.row)"
                                 type="warning"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
                                 title="view ssh machine information"
                                 @click="handleClickView(scope.row)"
                                 type="success"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-view"
                         ></el-button>
                         <el-button
                                 title="delete ssh connection"
                                 @click="doDelete(scope.row)"
                                 type="danger"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-delete-solid"
                         ></el-button>
 

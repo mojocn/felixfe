@@ -40,7 +40,7 @@
                                 @click="doUpdate(scope.row)"
                                 :disabled="scope.row.id == 1"
                                 type="success"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-edit"
                         ></el-button>
                         <el-button
@@ -48,7 +48,7 @@
                                 @click="doDelete(scope.row)"
                                 :disabled="scope.row.id == 1"
                                 type="danger"
-                                size="small"
+                                size="mini"
                                 icon="el-icon-delete-solid"
                         ></el-button>
                     </el-button-group>

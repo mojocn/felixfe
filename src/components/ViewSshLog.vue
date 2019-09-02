@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row type="flex" justify="start" align="middle" class="toolbar">
-            <el-button type="primary" size="small" @click="$router.go(-1)">{{$t('back')}}</el-button>
+            <el-button type="primary" size="mini" @click="$router.go(-1)">{{$t('back')}}</el-button>
 
         </el-row>
         <el-table :data="tableData" border style="width: 100%" stripe size="mini" cell-class-name="fortress-cell">

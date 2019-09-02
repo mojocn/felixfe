@@ -39,14 +39,14 @@
                             title="view ssh machine information"
                             @click="doView(scope.row)"
                             type="success"
-                            size="small"
+                            size="mini"
                             icon="el-icon-view"
                     ></el-button>
                     <el-button
                             title="delete ssh connection"
                             @click="doDelete(scope.row)"
                             type="danger"
-                            size="small"
+                            size="mini"
                             icon="el-icon-delete-solid"
                     ></el-button>
 
