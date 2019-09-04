@@ -56,23 +56,23 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
         </el-pagination>
-        <el-dialog
-                title="Wslog Hook Log View As JSON"
-                :visible.sync="logDialogV"
-                width="50%"
-                center>
-            <pre v-text="logData" class="cat-view"></pre>
-        </el-dialog>
+
+        <df-hacknews :obj="form" :visible.sync="dfV" @afterClose="dfV = false" :type="dfType"></df-hacknews>
+
 
     </div>
 </template>
 
 <script>
-
+    import DfHacknews from "./DfHacknews"
     export default {
         name: "ViewHacknews",
+        components:{DfHacknews},
         data() {
             return {
+                dfType:'view',
+                form:{},
+                dfV:false,
                 tableData:[],
                 page: 1,
                 size: 10,
@@ -97,8 +97,9 @@
                 })
             },
             doView(row) {
-                this.logDialogV = true;
-                this.logData = JSON.stringify(row, null, 2)
+                this.dfV = true;
+                this.dfType = "view";
+                this.form = row
             },
             fetchList() {
                 let page = this.page;
@@ -124,14 +125,9 @@
                 this.fetchList()
             },
             doEdit(row){
-                //todo::: vuejs dialog form
-                this.$http.patch('api/hacknews',row).then(res => {
-                    if (res) {
-                        this.$message.success("success");
-                        this.dialogFormVisible = false;
-                        this.fetchAllUser()
-                    }
-                })
+                this.dfV = true;
+                this.dfType = "edit";
+                this.form = row
             },
             humanTime: function (timeS) {
                 let date = new Date(timeS);

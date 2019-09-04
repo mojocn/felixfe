@@ -263,7 +263,7 @@
             },
             handleLogin() {
                 this.loading = true;
-                this.$http.post('api/login', this.form).then(res => {
+                this.$http.post('api/admin-login', this.form).then(res => {
                     if (res) {
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("expire_ts", res.data.expire_ts);

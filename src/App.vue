@@ -177,4 +177,17 @@
         justify-content: flex-end;
         align-items: center;
     }
+
+    .felix-xterm {
+        margin-top: 1rem;
+        height: calc(100vh - 150px) !important;
+    }
+    .felix-dialog {
+        background-color: black!important;
+    }
+
+    div.felix-dialog > div.el-dialog__header > button > i {
+        font-size: 2rem!important;
+        color: #fff!important;
+    }
 </style>

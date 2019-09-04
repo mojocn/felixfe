@@ -1,8 +1,39 @@
 <template>
     <div>
+        <el-row type="flex" justify="start" align="middle" class="toolbar">
+            <el-button type="primary" size="small" @click="$router.go(-1)">{{$t('back')}}</el-button>
+            <el-button type="danger" size="small" v-if="selectedRows && selectedRows.length >0" @click="doDeleteAll">
+                {{$t('rmSelected')}}
+            </el-button>
+            <div class="search-bar">
+
+                <el-input v-model.trim="q.path"
+                          class="table-search-input"
+                          @change="fetchList"
+                          prefix-icon="el-icon-search"
+                          size="small"
+                          :placeholder="$t('sftpLogPathPhS')"
+                          clearable>
+                </el-input>
+
+               
+
+                <el-button type="primary" size="small"
+                           icon="el-icon-search"
+                           @click="fetchList"
+                           :title="$t('btnSearch')">
+                </el-button>
+            </div>
+        </el-row>
 
         <el-table :data="tableData"
+                  @selection-change="handleSelectionChange"
                   border style="width: 100%" stripe>
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column label="ID" prop="id"></el-table-column>
             <el-table-column label="created_at" width="170">
                 <template slot-scope="scope">
                     {{humanTime(scope.row.created_at)}}
@@ -17,11 +48,7 @@
             </el-table-column>
             <el-table-column prop="slack_msg.channel" label="channel" width="80">
             </el-table-column>
-            <el-table-column prop="slack_msg.icon_emoji" label="ICON" width="80">
-            </el-table-column>
-            <el-table-column prop="slack_msg.username" label="User" width="80">
-            </el-table-column>
-            <el-table-column label="detail">
+            <el-table-column label="detail" width="300">
                 <template slot-scope="scope">
                     <h4 v-text="scope.row.slack_msg.attachments[0].fallback"></h4>
                     <p v-for="(ff,idx) in scope.row.slack_msg.attachments[0].fields" :key="idx">
@@ -32,9 +59,8 @@
                 </template>
             </el-table-column>
 
-            <el-table-column fixed="right" label="Action" width="260" align="center">
+            <el-table-column label="Action" width="260" align="center">
                 <template slot-scope="scope">
-
                     <el-button
                             title="view ssh machine information"
                             @click="doView(scope.row)"
@@ -80,6 +106,8 @@
         name: "ViewWslogMsg",
         data() {
             return {
+                q:{},
+                selectedRows:[],
                 tableData:[],
                 page: 1,
                 size: 10,
@@ -96,12 +124,43 @@
 
         },
         methods: {
+            handleSelectionChange(val) {
+                this.selectedRows = val;
+            },
+            doDeleteAll() {
+                if (!this.selectedRows || this.selectedRows.length === 0) {
+                    return;
+                }
+                const ids = [];
+                this.selectedRows.forEach(vv => {
+                    ids.push(vv.id)
+                });
+                this.privateRm(ids)
+            },
+            privateRm(ids) {
+                if (!ids || !Array.isArray(ids)) {
+                    return
+                }
+                this.$confirm(this.$t("confirmDeleteMsg"), this.$t("confirmDeleteTitle"), {
+                    confirmButtonText: this.$t("ok"),
+                    cancelButtonText: this.$t("cancel"),
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post(`api/wslog/msg-rm`, ids).then(res => {
+                        if (res) {
+                            this.fetchList();
+                            this.$message.success(res.msg)
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: this.$t("confirmDeleteCancel")
+                    });
+                });
+            },
             doDelete(row) {
-                this.$http.delete(`api/wslog/msg/${row.id}`).then(res => {
-                    if (res) {
-                        this.fetchList()
-                    }
-                })
+                this.privateRm([row.id])
             },
             doView(row) {
                 this.logDialogV = true;

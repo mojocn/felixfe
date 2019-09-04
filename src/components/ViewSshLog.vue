@@ -30,8 +30,6 @@
                     <span v-text="countLogLineCount(scope.row)"></span>
                 </template>
             </el-table-column>
-
-
             <el-table-column fixed="right" :label="$t('action')" width="120">
                 <template slot-scope="scope">
                     <el-button-group>
@@ -69,17 +67,17 @@
         </el-pagination>
 
 
-<!--        <comp-ssh-log :obj="form" :visible="termVisible" @afterClose="termVisible = false"></comp-ssh-log>-->
+        <comp-term-log :obj="form" :visible.sync="termVisible" @afterClose="termVisible = false"></comp-term-log>
     </div>
 
 </template>
 
 <script>
-    import CompSshLog from './CompSshLog'
+    import CompTermLog from './CompTermLog'
 
     export default {
-        components: {CompSshLog},
-        name: 'CompSshLog',
+        components: {CompTermLog},
+        name: 'ViewSshLog',
         data() {
             return {
                 form: {log: ""},

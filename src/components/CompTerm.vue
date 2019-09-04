@@ -5,6 +5,8 @@
                @open="doOpen"
                @close="doClose"
                center
+               :modal="false"
+               :destroy-on-close="true"
                fullscreen
                custom-class="felix-dialog"
     >
@@ -41,7 +43,7 @@
         });
     };
     let bindTerminal = (term, websocket, bidirectional, bufferedTime) => {
-        term.write('\r\n欢迎来到360云平台Fortress堡垒机\n\r\n');
+        term.write('\r\nWelcome to Felix Web Ssh Terminal\n\r\n');
         term.socket = websocket;
         let messageBuffer = null;
         let handleWebSocketMessage = function (ev) {
@@ -185,31 +187,7 @@
     }
 </script>
 
-<style>
-    .felix-xterm {
-        height: calc(100vh - 60px) !important;
-    }
+<style >
 
-    .felix-dialog {
-        background-color: #1b212f !important;
-        margin: 0 !important;
 
-    }
-
-    .felix-dialog .el-dialog__body {
-        /*border: white solid 1px!important;*/
-        padding: 0 !important;
-
-    }
-
-    .felix-dialog .el-dialog__title {
-        color: white;
-        font-weight: bold;
-    }
-
-    .felix-dialog .el-dialog__headerbtn {
-        font-size: 2rem !important;
-        color: white;
-        font-weight: bold !important;
-    }
 </style>
