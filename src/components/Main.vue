@@ -76,18 +76,15 @@
 
                     <!--用户-->
                     <el-dropdown @command="doCommand">
-
                         <img v-if="user" :src="user.avatar"
                              style="width: 40px;height: 40px;border: 1px solid #d6d6d6;border-radius: 20px"
-                             title="user.username">
-
+                             :title="user.username">
                         <i v-if="!user" class="el-icon-setting"></i>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="logout">Logout</el-dropdown-item>
                             <el-dropdown-item v-text="user.email" command="email"></el-dropdown-item>
                             <el-dropdown-item command="github.com" >github.com/mojocn</el-dropdown-item>
                             <el-dropdown-item command="www" >tech.mojotv.cn</el-dropdown-item>
-
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
