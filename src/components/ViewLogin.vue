@@ -35,7 +35,7 @@
 <script>
     import * as jsnes from "jsnes"
 
-
+    import {parseUser} from "../libs/helper";
     //const canvas_id = "nes-canvas";
     let SCREEN_WIDTH = 256;//256;
     let SCREEN_HEIGHT = 240;//240
@@ -72,7 +72,6 @@
     // function audio_remain() {
     //     return (audio_write_cursor - audio_read_cursor) & SAMPLE_MASK;
     // }
-
 
 
     function keyboard(callback, event) {
@@ -252,10 +251,7 @@
                     let data = {code: this.code};
                     this.$http.get('login-github', {params: data}).then(res => {
                         if (res) {
-                            localStorage.setItem("token", res.data.token);
-                            localStorage.setItem("expire_ts", res.data.expire_ts);
-                            localStorage.setItem("expire", res.data.expire);
-                            this.$store.commit('setUser', res.data);
+                            parseUser(res.data)
                             this.$router.push({name: "machine"});
                         }
                     })
@@ -265,10 +261,7 @@
                 this.loading = true;
                 this.$http.post('api/admin-login', this.form).then(res => {
                     if (res) {
-                        localStorage.setItem("token", res.data.token);
-                        localStorage.setItem("expire_ts", res.data.expire_ts);
-                        localStorage.setItem("expire", res.data.expire);
-                        localStorage.setItem("user", JSON.stringify(res.data));
+                        parseUser(res.data)
                         this.$router.push({name: "ssh"});
                     }
                     this.loading = false;

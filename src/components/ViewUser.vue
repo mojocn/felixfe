@@ -16,6 +16,8 @@
             </el-table-column>
             <el-table-column prop="username" label="name">
             </el-table-column>
+            <el-table-column prop="role_id" label="RoleId">
+            </el-table-column>
             <el-table-column prop="email" label="email">
             </el-table-column>
             <el-table-column prop="mobile" label="Mobile" width="180">

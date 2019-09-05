@@ -75,7 +75,7 @@
                     </el-tooltip>
 
                     <!--用户-->
-                    <el-dropdown>
+                    <el-dropdown @command="doCommand">
 
                         <img v-if="user" :src="user.avatar"
                              style="width: 40px;height: 40px;border: 1px solid #d6d6d6;border-radius: 20px"
@@ -83,15 +83,11 @@
 
                         <i v-if="!user" class="el-icon-setting"></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>
-                                <el-link @click="doLogout" type="danger">Logout</el-link>
-                            </el-dropdown-item>
-                            <el-dropdown-item>
-                                <el-link :href="'mailto:'+user.email" v-text="user.email" type="primary"></el-link>
-                            </el-dropdown-item>
-                            <el-dropdown-item>
-                                <el-link href="https://github.com/mojocn" v-text="'Github'" type="success"></el-link>
-                            </el-dropdown-item>
+                            <el-dropdown-item command="logout">Logout</el-dropdown-item>
+                            <el-dropdown-item v-text="user.email" command="email"></el-dropdown-item>
+                            <el-dropdown-item command="github.com" >github.com/mojocn</el-dropdown-item>
+                            <el-dropdown-item command="www" >tech.mojotv.cn</el-dropdown-item>
+
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -159,6 +155,25 @@
             }
         },
         methods: {
+            doCommand(command){
+                switch (command) {
+                    case "logout":
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("expire_ts");
+                        localStorage.removeItem("expire");
+                        this.$router.push({name: "login"});
+                        break;
+                    case "email":
+                        window.location.href = `mailto://${this.user.email}`;
+                        break;
+                    case "github":
+                        window.location.href = `https://github.com/mojocn`;
+                        break
+                    case "www":
+                        window.location.href = `https://tech.mojotv.cn`;
+                        break;
+                }
+            },
             startWebsocketConn() {
                 let token = localStorage.getItem('token');
                 if (!token){
@@ -190,12 +205,7 @@
                 localStorage.setItem("language", lang);
                 this.$i18n.locale = lang;
             },
-            doLogout() {
-                localStorage.removeItem("token");
-                localStorage.removeItem("expire_ts");
-                localStorage.removeItem("expire");
-                this.$router.push({name: "login"});
-            }
+
         },
     }
 </script>
