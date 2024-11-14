@@ -59,7 +59,6 @@
 
 <script>
 
-import axios from 'axios';
 
 export default {
   name: 'app',
@@ -83,27 +82,14 @@ export default {
   methods: {
 
     fetchConfig() {
-      let q = ''
-      axios.get("api/config", {params: {q}}).then(({status, data}) => {
-            if (status === 200) {
-              this.tableData = data
-            }
-          }
-      )
+ 
     },
     showForm(row) {
       this.form = row;
       this.dialogFormVisible = true
     },
     updateConfig() {
-      axios.patch("api/config", this.form).then(({status, data}) => {
-        if (status !== 200) {
-          this.$message.success(data);
-        } else {
-          this.dialogFormVisible = false;
-          this.fetchConfig()
-        }
-      })
+     
     },
   }
 };
