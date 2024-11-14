@@ -63,7 +63,7 @@
           <el-dropdown @command="doCommand">
             <span>
               <el-badge :hidden="todoCount < 1" :max="9" :value="todoCount" class="abadge" type="success">
-                  <img :src="user ? user.avatar : '/favicon.ico'" :title="user ? user.name : '请登录'" class="avatar">
+                  <img :src="user ? user.avatar : '/apple-icon.png'" :title="user ? user.name : '请登录'" class="avatar">
               </el-badge>
 
             </span>

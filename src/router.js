@@ -8,25 +8,7 @@ const vueRouter = new Router({
     mode: "history",
     routes: [
 
-        {
-            path: '/xterm/:token',
-            name: 'xterm',
-            meta: {
-                title: "Xterm"
-            },
-            component: () => import("./components/Xterm"),
-            props: true,
-        },
-        {
-            path: "/play/:id",
-            name: "play",
-            meta: {
-                breads: [{name: 'main', title: '首页'}, {name: 'play', title: 'Xterm播放器'}],
-                title: "Xterm播放器"
-            },
-            props: true,
-            component: () => import("./components/ViewTermPlayer")
-        },
+
 
         {
             path: "/",

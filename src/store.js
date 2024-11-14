@@ -1,7 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import service from "./libs/request";
-import {menuAdmin, menuUser} from "./libs/nav";
 
 Vue.use(Vuex);
 
@@ -52,7 +51,7 @@ export default new Vuex.Store({
         getNavi(state, getters) {
             let user = getters.getUser
             if (user && user.role === 'admin') {
-                return menuAdmin
+                return menuUser
             }
             return menuUser
         }
@@ -87,3 +86,28 @@ export default new Vuex.Store({
 
     },
 });
+
+
+const menuUser = [
+
+    {
+        txt: 'CMDB',
+        icon: 'el-icon-c-scale-to-original',
+        subs: [
+            {path: '/asset', txt: '资产列表', name: 'asset'},
+            {path: '/manage-account', txt: '管理账号', name: 'manageAccount'},
+            {path: '/script-exec', txt: '命令执行', name: 'script-exec'},
+
+        ]
+    },
+    {
+        txt: '用户',
+        icon: 'el-icon-user',
+        subs: [
+            {path: '/user', txt: '用户管理', name: 'user'},
+            {path: '/asset-user', txt: '资产授权', name: '资产用户'},
+
+        ]
+    },
+
+]

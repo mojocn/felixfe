@@ -21,10 +21,16 @@ npm run lint
 ```
 
 
-## 重写更新我的 Vue2 + ElementUI 项目
+##  Find back my old Vue2 project
 
+Vue2 + ElementUI is a good choice for me to build a project.
+I have used it for a long time. I have built a lot of projects with it.
+
+
+```bash
 node v21.7.1
 npm v10.5.0
+```
 
+copy a lot of files from **https://github.com/bytegang/felixiafe**
 
-合并之前 https://github.com/bytegang/felixiafe 代码到这里
