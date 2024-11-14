@@ -1,0 +1,156 @@
+<template>
+  <el-dialog :destroy-on-close="true"
+             :modal="false"
+             :title="termTitle"
+             :visible="visible"
+             center
+             custom-class="felix-dialog"
+             fullscreen
+             @close="doClose"
+             @opened="doOpened"
+  >
+
+    <div ref="terminal" class="felix-xterm"></div>
+
+  </el-dialog>
+</template>
+
+<script>
+import {Terminal} from 'xterm';
+import {FitAddon} from 'xterm-addon-fit';
+import "xterm/css/xterm.css"
+
+export default {
+  props: {obj: {type: Object, require: true}, visible: Boolean},
+  name: "DvXterm",
+  data() {
+    return {
+      timer: null,
+      ws: null,
+      term: null,
+      fitAddon: null,
+    };
+  },
+  watch: {
+    visible(val) {
+      this.v = val;//新增result的watch，监听变更并同步到myResult上
+    }
+  },
+  computed: {
+    termTitle() {
+      return "SSH-ARK-Web-Terminal"
+    },
+    wsUrl() {
+      let loc = window.location, new_uri;
+      if (loc.protocol === "https:") {
+        new_uri = "wss:";
+      } else {
+        new_uri = "ws:";
+      }
+      new_uri += "//" + loc.host;
+      new_uri += loc.pathname + "api/ws/term";
+      return `${new_uri}?cols=${this.term.cols}&rows=${this.term.rows}&id=${this.obj.id}&as=user`
+    }
+  },
+
+  methods: {
+    doClose() {
+      if (this.timer) {
+        clearInterval(this.timer)
+        this.timer = null
+      }
+      if (this.ws) {
+        this.ws.close()
+        this.ws = null
+      }
+      if (this.term) {
+        this.term.setOption("cursorBlink", false);
+        this.term.dispose()
+        this.term = null
+      }
+      window.onresize = null
+      this.$emit('afterClose')//子组件对openStatus修改后向父组件发送事件通知
+    },
+    doOpened() {
+      this.fitAddon = new FitAddon();
+      this.term = new Terminal({
+        //rows: 20,
+        fontSize: 16,
+        cursorBlink: true,
+        cursorStyle: 'bar',
+        bellStyle: "sound",
+      });
+      this.term.writeln('Welcome to SSH-ARK terminal');
+      this.term.loadAddon(this.fitAddon)
+      this.term.open(this.$refs.terminal);
+      this.fitAddon.fit(); // first resizing
+      this.term.focus();
+
+      this.ws = new WebSocket(this.wsUrl);
+      //1.
+      this.ws.onclose = ce => {
+        if (ce.code !== 1005) {
+          this.$notify.error({
+            title: `code ${ce.code}`,
+            message: ce.reason,
+          });
+          this.doClose();
+        }
+      };
+      //2.
+      this.ws.onerror = ce => {
+        if (ce.code !== 1005) {
+          this.$notify.error({
+            title: `code ${ce.code}`,
+            message: ce.reason,
+          });
+          this.doClose();
+        }
+      }
+      //3. write ws msg to xtermjs
+      this.ws.onmessage = ev => {
+        this.term.write(ev.data)
+      }
+
+      //4. send ws heart beat
+      this.timer = setInterval(() => {
+        this.ws.send(JSON.stringify({type: "heartbeat", data: ""}));
+      }, 2 * 1000);
+
+      //5. term size change
+      this.term.onResize(size => {
+        this.ws.send(
+            JSON.stringify({
+              type: "resize",
+              rows: size.rows,
+              cols: size.cols,
+            })
+        );
+      });
+
+      //6. term send msg
+      this.term.onData(data => {
+        this.ws.send(
+            JSON.stringify({
+              type: "cmd",
+              cmd: btoa(data) // encode data as base64 format
+            })
+        );
+      })
+
+      //7. watch window size change
+      window.onresize = () => {
+        this.fitAddon.fit()
+      };
+    },
+
+  },
+
+
+}
+</script>
+
+<style>
+
+
+</style>
