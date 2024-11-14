@@ -5,7 +5,7 @@ Vue.use(Router);
 
 const vueRouter = new Router({
     $breadCrumbs: ['main'],
-    mode: "history",
+    mode: "hash",//history mode is not fit for netlify cloud
     routes: [
 
 
