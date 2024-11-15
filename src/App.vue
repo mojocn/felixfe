@@ -9,15 +9,11 @@
 export default {
   name: 'app',
   mounted() {
-
-
   }
 }
 </script>
 
 <style>
-
-
 .el-button--mini {
   padding: 4px 6px !important;
   font-size: 8px !important;
@@ -39,10 +35,7 @@ label {
   height: 100vh;
 }
 
-.felix-xterm {
-  width: 100vw;
-  height: 100vh;
-}
+
 
 .el-submenu, .el-menu {
   background: #1f2d3d !important;

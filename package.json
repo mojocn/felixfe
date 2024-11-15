@@ -20,11 +20,13 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@cloudflare/workers-types": "^4.20241112.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "typescript": "^5.6.3",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
@@ -39,6 +41,7 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
+    "ignorePatterns": ["functions/"],
     "rules": {}
   },
   "browserslist": [

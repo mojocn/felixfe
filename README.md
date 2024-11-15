@@ -34,3 +34,4 @@ npm v10.5.0
 
 copy a lot of files from **https://github.com/bytegang/felixiafe**
 
+https://fakerjs.dev/
