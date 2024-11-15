@@ -2,7 +2,7 @@
 node_modules
 /dist
 
-
+.wrangler
 # local env files
 .env.local
 .env.*.local

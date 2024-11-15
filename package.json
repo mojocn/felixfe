@@ -20,6 +20,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@cloudflare/workers-types": "^4.20241112.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
@@ -40,7 +41,9 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "ignorePatterns": ["functions/"],
+    "ignorePatterns": [
+      "functions/"
+    ],
     "rules": {}
   },
   "browserslist": [
